@@ -30,7 +30,6 @@ public class BuildingDTO extends AbstractDTO{
     private Integer brokerageFee;
     private String note;
     private List<String> typeCode;
-
     public String getStructure() {
         return structure;
     }

@@ -6,6 +6,7 @@ import com.javaweb.converter.BuildingSearchBuilderConverter;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.entity.UserEntity;
+import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
@@ -15,6 +16,7 @@ import com.javaweb.repository.UserRepository;
 import com.javaweb.service.IBuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +49,6 @@ public class BuildingServiceImpl implements IBuildingService {
         BuildingEntity building = buildingRepository.findById(id).get();
         return buildingDTOConverter.toBuildingDTO(building);
     }
-
     @Override
     public ResponseDTO listStaffs(Long buildingId) {
         BuildingEntity building = buildingRepository.findById(buildingId).get();
@@ -102,6 +103,25 @@ public class BuildingServiceImpl implements IBuildingService {
             }
             rentAreaRepository.saveAll(rentAreas);
             buildingEntity.setBuildings(rentAreas);
+        }
+    }
+    public void updateAssignment(AssignmentBuildingDTO assignmentBuildingDTO) {
+        List<Long> staffIds = assignmentBuildingDTO.getStaffs();
+        BuildingEntity buildingEntity = buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get();
+        if (buildingEntity != null) {
+            List<UserEntity> userEntities = new ArrayList<>();
+            for (Long userId : staffIds) {
+                UserEntity userEntity = userRepository.findById(userId).get();
+                if (userEntity != null) {
+                    userEntities.add(userEntity);
+                }
+            }
+            userRepository.saveAll(userEntities);
+            buildingEntity.setUserEntities(userEntities);
+            buildingRepository.save(buildingEntity);
+            System.out.println("OK");
+        } else {
+            System.out.println("Building not found");
         }
     }
 }

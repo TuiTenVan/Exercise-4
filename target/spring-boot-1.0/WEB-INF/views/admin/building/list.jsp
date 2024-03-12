@@ -403,7 +403,7 @@
             },
             error: function(response){
                 console.info("Giao không thành công")
-                window.location.href = "<c:url value="/admin/building-list?message=error" />"
+                window.location.href = "<c:url value="/admin/building-list" />"
             }
         });
     }

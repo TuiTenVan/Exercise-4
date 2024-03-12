@@ -1,15 +1,18 @@
 package com.javaweb.api.admin;
 
+import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
+import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.service.impl.BuildingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController(value = "buildingApiOfBuilding")
@@ -18,8 +21,6 @@ import java.util.List;
 public class BuildingAPI {
     @Autowired
     private BuildingServiceImpl buildingService;
-    @Autowired
-    private UserRepository userRepository;
 
     @PostMapping
     public void addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){
@@ -36,8 +37,7 @@ public class BuildingAPI {
         return result;
     }
     @PostMapping("/assignment")
-    public void UpdateAssignmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO){
-
-        System.out.println("OK");
+    public void UpdateAssignmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO) {
+        buildingService.updateAssignment(assignmentBuildingDTO);
     }
 }

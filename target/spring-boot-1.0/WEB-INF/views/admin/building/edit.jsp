@@ -202,19 +202,23 @@
                                         <form:input path="brokerageFee" name="brokerageFee" class="form-control"/>
                                     </div>
                                 </div>
-                                <div class="form-group" id="typeCode">
+<%--                                <div class="form-group" id="typeCode">--%>
+<%--                                    <label class="col-xs-2">Loại tòa nhà</label>--%>
+<%--                                    <div class="col-xs-9">--%>
+<%--                                        <c:forEach var="type" items="${buildingType}">--%>
+<%--                                            <input type="checkbox" name="typeCode" id="type_${type.id}" value="${type.id}" <c:if test="${type.checked}">checked</c:if>>--%>
+<%--                                            <label for="type_${type.id}">${type.name}</label><br>--%>
+<%--                                        </c:forEach>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+
+                                <div class="form-group">
                                     <label class="col-xs-2">Loại tòa nhà</label>
                                     <div class="col-xs-9">
                                         <form:checkboxes path="typeCode" items="${buildingType}" id="listCode"></form:checkboxes>
                                     </div>
                                 </div>
-                                <script>
-                                    // Duyệt qua từng checkbox trong form và đặt thuộc tính checked cho chúng
-                                    $('#listCode1 input[type=checkbox]').each(function() {
-                                        // Đặt thuộc tính checked cho checkbox
-                                        $(this).prop('checked', true);
-                                    });
-                                </script>
+
                                 <div class="form-group">
                                     <label class="col-xs-2">Ghi chú</label>
                                     <div class="col-xs-9">
@@ -289,7 +293,7 @@
             }
             else{
                 if (data['id'] != "") {
-                    window.location.href = "/admin/building-edit-"+ id + "?typeCode=require";
+                    window.location.href = "/admin/building-edit-"+ data['id'] + "?typeCode=require";
                 } else {
                     window.location.href = "/admin/building-edit?typeCode=require";
                 }
