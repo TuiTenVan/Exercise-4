@@ -78,7 +78,7 @@ public class BuildingController {
     public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
 
     @RequestMapping(method = RequestMethod.POST, value = "/admin/building-edit")
-    public String addService(@ModelAttribute BuildingDTO buildingDTO, @RequestParam("image")MultipartFile multipartFile) throws IOException {
+    public String addBuilding(@ModelAttribute BuildingDTO buildingDTO, @RequestParam("image")MultipartFile multipartFile) throws IOException {
         if(!multipartFile.isEmpty()){
             buildingService.save(buildingDTO);
             String tmp = StringUtils.clean(multipartFile.getOriginalFilename());

@@ -43,3 +43,19 @@ button:hover {
     color: #000;
 }
 
+#imagePreviewContainer {
+    width: 300px;
+    /*height: 250px;*/
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#imagePreview {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+}
+

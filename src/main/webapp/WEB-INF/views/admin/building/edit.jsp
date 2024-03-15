@@ -215,10 +215,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" th:field="*{avatar}"/>
-                                    <label>Thumbnail</label>
-                                    <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
-                                    <img id="imagePreview" style="position: relative; top: -175px; left: 215px;max-width: 200px; max-height: 200px; margin-top: 20px;" alt="Preview">
+                                    <label class="col-xs-2">Ảnh tòa nhà</label>
+                                    <div class="col-xs-9">
+<%--                                        <input type="hidden" th:field="*{avatar}"/>?--%>
+                                        <form:input path="avatar" type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)"/>
+                                        <div id="imagePreviewContainer" style="margin-top: 10px;">
+                                            <img id="imagePreview" alt="Preview" style="object-fit: cover; overflow: hidden">
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-2"></div>
