@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:url var="buildingAPI" value="/api/building"></c:url>
 <c:url var="buildingEditURL" value="/admin/building-edit"></c:url>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <form:form modelAttribute="buildingEdit" method="get" id="listForm">
         <c:if test="${empty buildingEdit.id}">
@@ -52,7 +52,7 @@
 
 
                 <div class="row" style="font-family: 'Inria Serif', sans-serif;">
-                    <form:form id="listForm" action="${buildingEditURL}" method="get" modelAttribute="buildingEdit">
+                    <form:form id="listForm" action="${buildingEditURL}" method="post" modelAttribute="buildingEdit" enctype="multipart/form-data">
                         <div class="col-xs-12">
                             <div role="form" class="form-horizontal" id="form-edit">
                                 <div class="form-group">
@@ -202,28 +202,23 @@
                                         <form:input path="brokerageFee" name="brokerageFee" class="form-control"/>
                                     </div>
                                 </div>
-<%--                                <div class="form-group" id="typeCode">--%>
-<%--                                    <label class="col-xs-2">Loại tòa nhà</label>--%>
-<%--                                    <div class="col-xs-9">--%>
-<%--                                        <c:forEach var="type" items="${buildingType}">--%>
-<%--                                            <input type="checkbox" name="typeCode" id="type_${type.id}" value="${type.id}" <c:if test="${type.checked}">checked</c:if>>--%>
-<%--                                            <label for="type_${type.id}">${type.name}</label><br>--%>
-<%--                                        </c:forEach>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
-
                                 <div class="form-group">
                                     <label class="col-xs-2">Loại tòa nhà</label>
                                     <div class="col-xs-9">
                                         <form:checkboxes path="typeCode" items="${buildingType}" id="listCode"></form:checkboxes>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <label class="col-xs-2">Ghi chú</label>
                                     <div class="col-xs-9">
                                         <form:input path="note" name="note" class="form-control"/>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" th:field="*{avatar}"/>
+                                    <label>Thumbnail</label>
+                                    <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)">
+                                    <img id="imagePreview" style="position: relative; top: -175px; left: 215px;max-width: 200px; max-height: 200px; margin-top: 20px;" alt="Preview">
                                 </div>
                                 <div class="form-group">
                                     <div class="col-xs-2"></div>
@@ -250,8 +245,10 @@
                                         </c:if>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
+
                     <form:hidden path="id" id="buildingId"></form:hidden>
                     </form:form>
                 </div>
@@ -262,10 +259,6 @@
     <script src="assets/js/jquery.2.1.1.min.js"></script>
 
     <script>
-        // $('#listCode input[type=checkbox]').each(function() {
-        //     // Đặt thuộc tính checked cho checkbox
-        //     $(this).prop('checked', true);
-        // });
 
         $('#btnAddOrUpdateBuilding').click(function(e){
             var data = {};
@@ -319,6 +312,15 @@
             window.location.href = "/admin/building-list"
             e.preventDefault();
         })
+        function previewImage(event) {
+            var input = event.target;
+            var preview = document.getElementById('imagePreview');
+            var reader = new FileReader();
+            reader.onload = function () {
+                preview.src = reader.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
     </script>
 </body>
 </html>

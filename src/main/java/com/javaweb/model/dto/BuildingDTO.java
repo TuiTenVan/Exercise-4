@@ -30,6 +30,16 @@ public class BuildingDTO extends AbstractDTO{
     private Integer brokerageFee;
     private String note;
     private List<String> typeCode;
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public String getStructure() {
         return structure;
     }

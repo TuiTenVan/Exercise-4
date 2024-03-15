@@ -2402,7 +2402,7 @@ input[type="search"] {
 }
 input[type="radio"],
 input[type="checkbox"] {
-    margin: 10px 2px 0 10px;
+    margin: 5px;
     margin-top: 1px \9;
     line-height: normal;
 }

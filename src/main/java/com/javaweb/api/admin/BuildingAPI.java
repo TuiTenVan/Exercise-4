@@ -10,8 +10,10 @@ import com.javaweb.repository.UserRepository;
 import com.javaweb.service.impl.BuildingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class BuildingAPI {
     public void addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){
         buildingService.save(buildingDTO);
     }
+
     @DeleteMapping("/{ids}")
     public void DeleteBuilding(@PathVariable List<Long> ids){
         buildingService.deleteBuildings(ids);

@@ -24,6 +24,12 @@ public class BuildingDTOConverter {
         BuildingDTO building = modelMapper.map(item, BuildingDTO.class);
         building.setAddress(item.getStreet() + ", " + item.getWard());
         List<RentAreaEntity> rentAreas = item.getBuildings();
+        List<String> typeCodes = new ArrayList<>();
+        String[] typeCode = item.getTypeCode().split(",");
+        for(String type : typeCode){
+            typeCodes.add(type);
+        }
+        building.setTypeCode(typeCodes);
         String rentArea = rentAreas.stream().map(it->it.getValue().toString()).collect(Collectors.joining(", "));
         building.setRentArea(rentArea);
         return building;
@@ -32,6 +38,7 @@ public class BuildingDTOConverter {
         BuildingEntity building = modelMapper.map(item, BuildingEntity.class);
         String type = item.getTypeCode().stream().map(it->it.toString()).collect(Collectors.joining(","));
         building.setTypeCode(type);
+//        building.setAvatar(fileName);
         return building;
     }
 }

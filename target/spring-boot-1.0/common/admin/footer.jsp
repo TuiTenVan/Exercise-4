@@ -6,7 +6,7 @@
     <div class="footer-inner">
         <div class="footer-content" >
 			<span class="bigger-120">
-				<span class="blue bolder" style="color: #000000" >VANNGUYEN.COM</span>
+				<span class="blue bolder" style="color: #000000" >DEV.COM</span>
 			</span>
             &nbsp; &nbsp
             <span class="action-buttons">

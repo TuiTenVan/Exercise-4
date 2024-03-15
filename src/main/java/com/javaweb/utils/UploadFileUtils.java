@@ -2,24 +2,31 @@ package com.javaweb.utils;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 @Component
 public class UploadFileUtils {
+    public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
+        Path uploadPath = Paths.get(uploadDir);
 
-    public void writeOrUpdate(String path, byte[] bytes) {
-        path = "C://home/office" + path;
-        File file = new File(StringUtils.substringBeforeLast(path, "/"));
-        if (!file.exists()) {
-            file.mkdir();
+        if(!Files.exists(uploadPath)){
+            Files.createDirectories(uploadPath);
         }
-        try (FileOutputStream fop = new FileOutputStream(path)) {
-            fop.write(bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        try(InputStream inputStream = multipartFile.getInputStream()){
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        }catch (IOException e){
+            throw new IOException("Could not save File: " + fileName, e);
         }
     }
 }

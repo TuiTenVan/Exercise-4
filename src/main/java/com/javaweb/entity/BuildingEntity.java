@@ -54,6 +54,8 @@ public class BuildingEntity extends BaseEntity {
     private Integer brokerageFee;
     @Column(name = "type")
     private String typeCode;
+    @Column(name = "avatar")
+    private String avatar;
 
     @Column(name = "managername")
     private String managerName;
@@ -69,6 +71,14 @@ public class BuildingEntity extends BaseEntity {
 
     public void setBuildings(List<RentAreaEntity> buildings) {
         this.buildings = buildings;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
