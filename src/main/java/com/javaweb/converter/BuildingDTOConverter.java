@@ -25,9 +25,11 @@ public class BuildingDTOConverter {
         building.setAddress(item.getStreet() + ", " + item.getWard());
         List<RentAreaEntity> rentAreas = item.getBuildings();
         List<String> typeCodes = new ArrayList<>();
-        String[] typeCode = item.getTypeCode().split(",");
-        for(String type : typeCode){
-            typeCodes.add(type);
+        if(item.getTypeCode() != null && !item.getTypeCode().isEmpty()){ 
+            String[] typeCode = item.getTypeCode().split(",");
+            for(String type : typeCode){
+                typeCodes.add(type);
+            }
         }
         building.setTypeCode(typeCodes);
         String rentArea = rentAreas.stream().map(it->it.getValue().toString()).collect(Collectors.joining(", "));
