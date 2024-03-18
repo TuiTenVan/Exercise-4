@@ -3,27 +3,31 @@ package com.javaweb.controller.admin;
 
 
 import com.javaweb.constant.SystemConstant;
+import com.javaweb.entity.BuildingEntity;
 import com.javaweb.enums.buildingType;
 import com.javaweb.enums.districtCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
+import com.javaweb.repository.BuildingRepository;
+import com.javaweb.repository.UserRepository;
 import com.javaweb.service.impl.BuildingServiceImpl;
 import com.javaweb.service.impl.UserService;
 import com.javaweb.utils.DisplayTagUtils;
 import com.javaweb.utils.MessageUtils;
-import com.javaweb.utils.UploadFileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
+@Transactional
 @RestController(value="buildingControllerOfAdmin")
 public class BuildingController {
     @Autowired
@@ -40,6 +44,9 @@ public class BuildingController {
     public UserService userService;
     @Autowired
     private MessageUtils messageUtil;
+
+    @Autowired
+    private BuildingRepository buildingRepository;
     @GetMapping(value = "/admin/building-list")
     public ModelAndView buildingAdmin(@ModelAttribute BuildingSearchRequest buildingSearchRequest,
                                       @RequestParam Map<String, Object> conditions,
@@ -75,22 +82,22 @@ public class BuildingController {
         initMessageResponse(mav, request);
         return mav;
     }
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
 
-    @RequestMapping(method = RequestMethod.POST, value = "/admin/building-edit")
-    public String addBuilding(@ModelAttribute BuildingDTO buildingDTO, @RequestParam("image")MultipartFile multipartFile) throws IOException {
-        if(!multipartFile.isEmpty()){
-            buildingService.save(buildingDTO);
-            String tmp = StringUtils.clean(multipartFile.getOriginalFilename());
-            String fileName = (buildingDTO.getName() + buildingDTO.getId()) + tmp.substring(tmp.lastIndexOf("."));
-            buildingDTO.setAvatar(fileName);
-            String upload = Paths.get("src", "main", "resources", "static", "admin", "assets", "avatars").toString();
-            UploadFileUtils.saveFile(upload, fileName, multipartFile);
+    @PostMapping("/admin/building-edit")
+    public String addBuilding(@ModelAttribute("buildingEdit") BuildingDTO buildingDTO,
+                              @RequestParam("image") MultipartFile file,
+                              HttpServletRequest request) {
+        if (!file.isEmpty()) {
+            try {
+                String filename = buildingService.saveFile(file);
+                buildingDTO.setAvatar(filename);
+                buildingService.save(buildingDTO);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        buildingService.save(buildingDTO);
         return "redirect:/admin/building-list";
     }
-
 
     @GetMapping(value = "/admin/building-edit")
     public ModelAndView editBuilding(@ModelAttribute("buildingEdit") BuildingDTO buildingDTO, HttpServletRequest request){
@@ -104,6 +111,7 @@ public class BuildingController {
     public ModelAndView editBuilding(@PathVariable("id") Long Id, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/building/edit");
         BuildingDTO buildingDTO = buildingService.getBuilding(Id);
+
         mav.addObject("buildingEdit", buildingDTO);
         mav.addObject("district", districtCode.type());
         mav.addObject("buildingType", buildingType.type());

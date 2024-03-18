@@ -15,7 +15,9 @@ import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.service.IBuildingService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +46,23 @@ public class BuildingServiceImpl implements IBuildingService {
     private BuildingDTOConverter buildingDTOConverter;
     @Autowired
     private RentAreaRepository rentAreaRepository;
+
+    private static final String uploadDir = "C:/Users/nguye/OneDrive/Máy tính/Project-spring-boot-web/Exercise-4/src/main/resources/static/Uploads";
+
+    public String saveFile(MultipartFile file) throws IOException {
+        String originalFilename = StringUtils.clean(file.getOriginalFilename());
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+        try (InputStream inputStream = file.getInputStream()) {
+            Path filePath = uploadPath.resolve(originalFilename);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new IOException("Không thể lưu tệp: " + originalFilename, e);
+        }
+        return originalFilename;
+    }
 
     public List<BuildingDTO> findAll(Map<String, Object> params, List<String> typeCode){
         BuildingSearchBuilder buildingSearchBuilder = buildingSearchBuilderConverter.toBuildingSearchBuilder(params, typeCode);
@@ -96,6 +120,11 @@ public class BuildingServiceImpl implements IBuildingService {
         } else {
             buildingEntity = new BuildingEntity();
         }
+        String avatarPath = buildingDTO.getAvatar();
+        if (avatarPath != null && !avatarPath.isEmpty()) {
+            buildingDTO.setAvatar(avatarPath);
+        }
+        buildingEntity.setAvatar(avatarPath);
         buildingEntity = buildingRepository.save(buildingDTOConverter.toBuildingEntity(buildingDTO));
         if (buildingDTO.getRentArea() != null && !buildingDTO.getRentArea().isEmpty()) {
             List<RentAreaEntity> rentAreas = new ArrayList<>();
@@ -110,13 +139,7 @@ public class BuildingServiceImpl implements IBuildingService {
             buildingEntity.setBuildings(rentAreas);
         }
     }
-//    public BuildingDTO addBuidling(ServiceDto serviceDto){
-//        ServiceEntity serviceEntity = new ServiceEntity();
-//        BeanUtils.copyProperties(serviceDto, serviceEntity);
-//        serviceRepository.save(serviceEntity);
-//        serviceDto.setId(serviceEntity.getId());
-//        return serviceDto;
-//    }
+
     public void updateAssignment(AssignmentBuildingDTO assignmentBuildingDTO) {
         List<Long> staffIds = assignmentBuildingDTO.getStaffs();
         BuildingEntity buildingEntity = buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get();

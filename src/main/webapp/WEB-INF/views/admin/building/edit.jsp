@@ -214,17 +214,17 @@
                                         <form:input path="note" name="note" class="form-control"/>
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     <label class="col-xs-2">Ảnh tòa nhà</label>
                                     <div class="col-xs-9">
-<%--                                        <input type="hidden" th:field="*{avatar}"/>?--%>
-                                        <form:input path="avatar" type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)"/>
+                                        <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)"/>
                                         <div id="imagePreviewContainer" style="margin-top: 10px;">
                                             <img id="imagePreview" alt="Preview" style="object-fit: cover; overflow: hidden">
                                         </div>
                                     </div>
-
                                 </div>
+
                                 <div class="form-group">
                                     <div class="col-xs-2"></div>
                                     <div class="col-xs-9">
@@ -250,12 +250,14 @@
                                         </c:if>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-
                     <form:hidden path="id" id="buildingId"></form:hidden>
                     </form:form>
+<%--                    <form action="/admin/building-list" method="post" enctype="multipart/form-data">--%>
+<%--                        <input type="file" name="image">--%>
+<%--                        <input type="submit" value="Upload">--%>
+<%--                    </form>--%>
                 </div>
 
             </div><!-- /.page-content -->
@@ -269,6 +271,8 @@
             var data = {};
             var typeCode = [];
             var formData = $('#listForm').serializeArray();
+            var file = $("#imageInput")[0].files[0];
+            formData.append("image", file);
             $.each(formData, function(index, value){
                 if(value.name != 'typeCode'){
                     data["" + value.name + ""] = value.value;
