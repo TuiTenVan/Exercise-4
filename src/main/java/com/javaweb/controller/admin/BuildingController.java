@@ -24,10 +24,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -84,21 +86,24 @@ public class BuildingController {
     }
 
     @PostMapping("/admin/building-edit")
-    public String addBuilding(@ModelAttribute("buildingEdit") BuildingDTO buildingDTO,
-                              @RequestParam("image") MultipartFile file,
-                              HttpServletRequest request) {
-        if (!file.isEmpty()) {
+    public ModelAndView addOrUpdateBuilding(@ModelAttribute("buildingEdit") BuildingDTO buildingDTO,
+                                            @RequestParam(value = "image", required = false) MultipartFile file) {
+        ModelAndView mav = new ModelAndView("admin/building/edit");
+        String filename = "";
+        if (file != null && !file.isEmpty()) {
             try {
-                String filename = buildingService.saveFile(file);
+                filename = buildingService.saveFile(file);
                 buildingDTO.setAvatar(filename);
-                buildingService.save(buildingDTO);
             } catch (IOException e) {
                 e.printStackTrace();
+
             }
         }
-        return "redirect:/admin/building-list";
+        buildingService.save(buildingDTO);
+        mav.addObject("district", districtCode.type());
+        mav.addObject("buildingType", buildingType.type());
+        return mav;
     }
-
     @GetMapping(value = "/admin/building-edit")
     public ModelAndView editBuilding(@ModelAttribute("buildingEdit") BuildingDTO buildingDTO, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/building/edit");
@@ -111,7 +116,6 @@ public class BuildingController {
     public ModelAndView editBuilding(@PathVariable("id") Long Id, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/building/edit");
         BuildingDTO buildingDTO = buildingService.getBuilding(Id);
-
         mav.addObject("buildingEdit", buildingDTO);
         mav.addObject("district", districtCode.type());
         mav.addObject("buildingType", buildingType.type());

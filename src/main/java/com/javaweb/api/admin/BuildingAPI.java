@@ -26,7 +26,7 @@ public class BuildingAPI {
 
     @PostMapping
     public void addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){
-        buildingService.save(buildingDTO);
+//        buildingService.save(buildingDTO);
     }
 
     @DeleteMapping("/{ids}")

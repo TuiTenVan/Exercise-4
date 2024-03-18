@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:url var="buildingAPI" value="/api/building"></c:url>
 <c:url var="buildingEditURL" value="/admin/building-edit"></c:url>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <form:form modelAttribute="buildingEdit" method="get" id="listForm">
         <c:if test="${empty buildingEdit.id}">
@@ -229,7 +229,7 @@
                                     <div class="col-xs-2"></div>
                                     <div class="col-xs-9">
                                         <c:if test="${not empty buildingEdit.id}">
-                                            <button style="margin-right: 10px;" id="btnAddOrUpdateBuilding">
+                                            <button type="submit" style="margin-right: 10px;" id="btnAddOrUpdateBuilding">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                                 <span> Cập nhập tòa nhà</span>
                                             </button>
@@ -239,7 +239,7 @@
                                             </button>
                                         </c:if>
                                         <c:if test="${empty buildingEdit.id}">
-                                            <button style="margin-right: 10px;" id="btnAddOrUpdateBuilding">
+                                            <button type="submit" style="margin-right: 10px;" id="btnAddOrUpdateBuilding">
                                                 <i class="ace-icon glyphicon glyphicon-plus"></i>
                                                 <span> Thêm tòa nhà</span>
                                             </button>
@@ -254,10 +254,6 @@
                         </div>
                     <form:hidden path="id" id="buildingId"></form:hidden>
                     </form:form>
-<%--                    <form action="/admin/building-list" method="post" enctype="multipart/form-data">--%>
-<%--                        <input type="file" name="image">--%>
-<%--                        <input type="submit" value="Upload">--%>
-<%--                    </form>--%>
                 </div>
 
             </div><!-- /.page-content -->
@@ -266,25 +262,24 @@
     <script src="assets/js/jquery.2.1.1.min.js"></script>
 
     <script>
-
         $('#btnAddOrUpdateBuilding').click(function(e){
             var data = {};
             var typeCode = [];
-            var formData = $('#listForm').serializeArray();
-            var file = $("#imageInput")[0].files[0];
-            formData.append("image", file);
-            $.each(formData, function(index, value){
-                if(value.name != 'typeCode'){
-                    data["" + value.name + ""] = value.value;
+            var formData = new FormData();
+            $('#listForm').serializeArray().forEach(function(item) {
+                if (item.name !== 'typeCode') {
+                    data[item.name] = item.value;
+                } else {
+                    typeCode.push(item.value);
                 }
-                else{
-                    typeCode.push(value.value);
-                }
-            })
+                formData.append(item.name, item.value);
+            });
             data['typeCode'] = typeCode;
             console.log("OK")
-            if(data['typeCode'] != ""){
-                AddOrUpdateBuilding(data);
+            if (data['typeCode'] != "") {
+                var file = $("#imageInput")[0].files[0];
+                formData.append("image", file);
+                AddOrUpdateBuilding(data, formData);
                 if (data['id'] != "") {
                     alert('Cập nhật thành công!');
                 } else {
@@ -292,8 +287,7 @@
                 }
                 window.location.href = "/admin/building-list";
                 e.preventDefault();
-            }
-            else{
+            } else {
                 if (data['id'] != "") {
                     window.location.href = "/admin/building-edit-"+ data['id'] + "?typeCode=require";
                 } else {
@@ -302,23 +296,27 @@
                 e.preventDefault();
             }
         });
-        function AddOrUpdateBuilding(data){
+
+        function AddOrUpdateBuilding(data, formData){
             $.ajax({
                 type: "POST",
-                url: "${buildingAPI}",
-                data: JSON.stringify(data),
-                contentType: "application/json",
+                url: "${buildingEditURL}",
+                data: formData,
+                contentType: false,
+                processData: false,
                 dataType: "JSON",
                 success: function(response) {
-
+                    // Xử lý kết quả thành công
                 },
                 error: function(response){
                     console.log("Fail!")
                 }
-            })
+            });
         }
+
         $('#btnCancel').click(function (e){
             window.location.href = "/admin/building-list"
+            alert("Hủy thao tác!")
             e.preventDefault();
         })
         function previewImage(event) {
