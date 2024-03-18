@@ -289,8 +289,10 @@
                 e.preventDefault();
             } else {
                 if (data['id'] != "") {
+                    alert("Thông tin chưa chính xác!")
                     window.location.href = "/admin/building-edit-"+ data['id'] + "?typeCode=require";
                 } else {
+                    alert("Thông tin chưa chính xác!")
                     window.location.href = "/admin/building-edit?typeCode=require";
                 }
                 e.preventDefault();
@@ -316,7 +318,6 @@
 
         $('#btnCancel').click(function (e){
             window.location.href = "/admin/building-list"
-            alert("Hủy thao tác!")
             e.preventDefault();
         })
         function previewImage(event) {
