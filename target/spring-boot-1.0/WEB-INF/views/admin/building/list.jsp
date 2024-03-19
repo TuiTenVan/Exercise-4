@@ -398,9 +398,13 @@
             return $(this).val();
         }).get();
         DeleteBuilding(buildingIds)
-        alert('Xóa thành công!');
-        window.location.href = "/admin/building-list";
-
+        if(buildingIds != ""){
+            alert('Xóa thành công!');
+            window.location.href = "/admin/building-list";
+        }
+        else{
+            alert("Vui lòng chọn tòa nhà cần xóa!")
+        }
     })
     function DeleteBuilding(data){
         $.ajax({

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RentAreaRepository  extends JpaRepository<RentAreaEntity, Long> {
-    RentAreaEntity findByBuildingId(Long id);
+//    RentAreaEntity findByBuildingId(Long id);
     void deleteByBuildingId(Long buildingId);
 //    RentAreaEntity findBy
 }

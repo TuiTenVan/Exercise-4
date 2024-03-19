@@ -10,7 +10,5 @@ import java.util.List;
 
 public interface BuildingRepositoreCustom {
     List<BuildingEntity> findAll(BuildingSearchBuilder buildingSearchBuilder);
-    List<BuildingEntity> getAllBuildings(Pageable pageable);
 
-    int countTotalItem();
 }

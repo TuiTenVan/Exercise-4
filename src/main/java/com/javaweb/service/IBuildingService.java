@@ -11,10 +11,10 @@ import java.util.List;
 
 public interface IBuildingService {
     ResponseDTO listStaffs(Long buildingId);
-    List<BuildingDTO> getBuildings(String searchName, Pageable pageable);
-    Page<BuildingEntity> findAll(Pageable pageable);
+//    List<BuildingDTO> getBuildings(String searchName, Pageable pageable);
+//    Page<BuildingEntity> findAll(Pageable pageable);
 
-    List<BuildingDTO> getAllBuilding(Pageable pageable);
+//    List<BuildingDTO> getAllBuilding(Pageable pageable);
 
-    int countTotalItems();
+//    int countTotalItems();
 }

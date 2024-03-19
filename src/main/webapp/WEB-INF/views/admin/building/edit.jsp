@@ -308,7 +308,7 @@
                 processData: false,
                 dataType: "JSON",
                 success: function(response) {
-                    // Xử lý kết quả thành công
+
                 },
                 error: function(response){
                     console.log("Fail!")

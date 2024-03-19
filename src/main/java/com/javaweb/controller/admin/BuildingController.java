@@ -44,11 +44,7 @@ public class BuildingController {
     public BuildingServiceImpl buildingService;
     @Autowired
     public UserService userService;
-    @Autowired
-    private MessageUtils messageUtil;
 
-    @Autowired
-    private BuildingRepository buildingRepository;
     @GetMapping(value = "/admin/building-list")
     public ModelAndView buildingAdmin(@ModelAttribute BuildingSearchRequest buildingSearchRequest,
                                       @RequestParam Map<String, Object> conditions,
@@ -76,12 +72,6 @@ public class BuildingController {
         mav.addObject("listStaffs", userService.getStaffs());
         mav.addObject("district", districtCode.type());
         mav.addObject("buildingType", buildingType.type());
-        DisplayTagUtils.of(request, model);
-        List<BuildingDTO> news = buildingService.getAllBuilding(PageRequest.of(model.getPage() - 1, model.getMaxPageItems()));
-        model.setListResult(news);
-        model.setTotalItems(buildingService.countTotalItems());
-        mav.addObject(SystemConstant.MODEL, model);
-        initMessageResponse(mav, request);
         return mav;
     }
 
@@ -96,7 +86,6 @@ public class BuildingController {
                 buildingDTO.setAvatar(filename);
             } catch (IOException e) {
                 e.printStackTrace();
-
             }
         }
         buildingService.save(buildingDTO);
@@ -104,6 +93,7 @@ public class BuildingController {
         mav.addObject("buildingType", buildingType.type());
         return mav;
     }
+
     @GetMapping(value = "/admin/building-edit")
     public ModelAndView editBuilding(@ModelAttribute("buildingEdit") BuildingDTO buildingDTO, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/building/edit");
@@ -120,13 +110,5 @@ public class BuildingController {
         mav.addObject("district", districtCode.type());
         mav.addObject("buildingType", buildingType.type());
         return mav;
-    }
-    private void initMessageResponse(ModelAndView mav, HttpServletRequest request) {
-        String message = request.getParameter("message");
-        if (message != null && StringUtils.isNotEmpty(message)) {
-            Map<String, String> messageMap = messageUtil.getMessage(message);
-            mav.addObject(SystemConstant.ALERT, messageMap.get(SystemConstant.ALERT));
-            mav.addObject(SystemConstant.MESSAGE_RESPONSE, messageMap.get(SystemConstant.MESSAGE_RESPONSE));
-        }
     }
 }

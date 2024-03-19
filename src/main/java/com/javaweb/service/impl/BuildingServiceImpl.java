@@ -17,8 +17,6 @@ import com.javaweb.service.IBuildingService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -128,18 +126,13 @@ public class BuildingServiceImpl implements IBuildingService {
         responseDTO.setMessage("success");
         return responseDTO;
     }
-    public void UpdateAssignment(Long buildingId, Long staffId){
-        BuildingEntity building = buildingRepository.findById(buildingId).get();
 
-    }
     public void deleteBuildings(List<Long> buildingIds) {
         for(Long id : buildingIds){
             rentAreaRepository.deleteByBuildingId(id);
         }
         buildingRepository.deleteAllByIdIn(buildingIds);
     }
-
-
 
     public void updateAssignment(AssignmentBuildingDTO assignmentBuildingDTO) {
         List<Long> staffIds = assignmentBuildingDTO.getStaffs();
@@ -160,39 +153,45 @@ public class BuildingServiceImpl implements IBuildingService {
             System.out.println("Building not found");
         }
     }
-    @Override
-    public Page<BuildingEntity> findAll(Pageable pageable) {
-        return buildingRepository.findAll(pageable);
-    }
 
-    @Override
-    public List<BuildingDTO> getAllBuilding(Pageable pageable) {
-        List<BuildingEntity> buildingEntities = buildingRepository.getAllBuildings(pageable);
-        List<BuildingDTO> results = new ArrayList<>();
-        for (BuildingEntity buildingEntity : buildingEntities) {
-            BuildingDTO buildingDTO = buildingDTOConverter.toBuildingDTO(buildingEntity);
-            results.add(buildingDTO);
-        }
-        return results;
-    }
-    public List<BuildingDTO> getBuildings(String searchName, Pageable pageable) {
-        Page<BuildingEntity> buildings = null;
-        if (StringUtils.isNotBlank(searchName)) {
-            buildings = buildingRepository.findByName(searchName, pageable);
-        } else {
-            buildings = buildingRepository.findById(0L, pageable);
-        }
-        List<BuildingEntity> buildingEntities = buildings.getContent();
-        List<BuildingDTO> results = new ArrayList<>();
-        for (BuildingEntity buildingEntity : buildingEntities) {
-            BuildingDTO buildingDTO = buildingDTOConverter.toBuildingDTO(buildingEntity);
-            results.add(buildingDTO);
-        }
-        return results;
-    }
-    @Override
-    public int countTotalItems() {
-        return buildingRepository.countTotalItem();
-    }
+
+
+    //    public void UpdateAssignment(Long buildingId, Long staffId){
+//        BuildingEntity building = buildingRepository.findById(buildingId).get();
+//    }
+//    @Override
+//    public Page<BuildingEntity> findAll(Pageable pageable) {
+//        return buildingRepository.findAll(pageable);
+//    }
+//
+//    @Override
+//    public List<BuildingDTO> getAllBuilding(Pageable pageable) {
+//        List<BuildingEntity> buildingEntities = buildingRepository.getAllBuildings(pageable);
+//        List<BuildingDTO> results = new ArrayList<>();
+//        for (BuildingEntity buildingEntity : buildingEntities) {
+//            BuildingDTO buildingDTO = buildingDTOConverter.toBuildingDTO(buildingEntity);
+//            results.add(buildingDTO);
+//        }
+//        return results;
+//    }
+//    public List<BuildingDTO> getBuildings(String searchName, Pageable pageable) {
+//        Page<BuildingEntity> buildings = null;
+//        if (StringUtils.isNotBlank(searchName)) {
+//            buildings = buildingRepository.findByName(searchName, pageable);
+//        } else {
+//            buildings = buildingRepository.findById(0L, pageable);
+//        }
+//        List<BuildingEntity> buildingEntities = buildings.getContent();
+//        List<BuildingDTO> results = new ArrayList<>();
+//        for (BuildingEntity buildingEntity : buildingEntities) {
+//            BuildingDTO buildingDTO = buildingDTOConverter.toBuildingDTO(buildingEntity);
+//            results.add(buildingDTO);
+//        }
+//        return results;
+//    }
+//    @Override
+//    public int countTotalItems() {
+//        return buildingRepository.countTotalItem();
+//    }
 
 }

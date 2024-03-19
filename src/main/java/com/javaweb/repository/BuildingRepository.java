@@ -10,10 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BuildingRepository extends JpaRepository<BuildingEntity, Long>, BuildingRepositoreCustom {
-    void deleteByIdIn(List<Long> ids);
-    BuildingEntity findOneById(Long id);
     void deleteAllByIdIn(List<Long> buildingIds);
-    Page<BuildingEntity> findByName(String name, Pageable pageable);
 
-    Page<BuildingEntity> findById(Long i, Pageable pageable);
 }

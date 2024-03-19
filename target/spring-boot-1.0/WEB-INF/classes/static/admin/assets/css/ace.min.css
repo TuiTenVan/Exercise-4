@@ -58,7 +58,7 @@ body {
 .page-content {
     background-color: #fff;
     position: relative;
-    margin: 0 0 0 30px;
+    margin: 0;
     padding: 8px 20px 24px;
 }
 .page-header {

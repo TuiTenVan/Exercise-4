@@ -17,15 +17,13 @@ import java.util.stream.Collectors;
 public class BuildingDTOConverter {
 
     @Autowired
-    private RentAreaRepository rentAreaRepository;
-    @Autowired
     private ModelMapper modelMapper;
     public BuildingDTO toBuildingDTO(BuildingEntity item){
         BuildingDTO building = modelMapper.map(item, BuildingDTO.class);
         building.setAddress(item.getStreet() + ", " + item.getWard());
         List<RentAreaEntity> rentAreas = item.getBuildings();
         List<String> typeCodes = new ArrayList<>();
-        if(item.getTypeCode() != null && !item.getTypeCode().isEmpty()){ 
+        if(item.getTypeCode() != null && !item.getTypeCode().isEmpty()){
             String[] typeCode = item.getTypeCode().split(",");
             for(String type : typeCode){
                 typeCodes.add(type);
@@ -40,7 +38,6 @@ public class BuildingDTOConverter {
         BuildingEntity building = modelMapper.map(item, BuildingEntity.class);
         String type = item.getTypeCode().stream().map(it->it.toString()).collect(Collectors.joining(","));
         building.setTypeCode(type);
-//        building.setAvatar(fileName);
         return building;
     }
 }
