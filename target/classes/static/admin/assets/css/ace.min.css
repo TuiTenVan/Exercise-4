@@ -2027,9 +2027,9 @@ pre.prettyprint {
     display: block;
     height: 39px;
     line-height: 17px;
-    padding-left: 7px;
+    padding-left: 3px;
     text-shadow: none !important;
-    font-size: 13px;
+    font-size: 15px;
     text-decoration: none;
 }
 .nav-list > li > a > .menu-icon {

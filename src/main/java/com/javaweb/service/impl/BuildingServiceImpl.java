@@ -148,7 +148,6 @@ public class BuildingServiceImpl implements IBuildingService {
             userRepository.saveAll(userEntities);
             buildingEntity.setUserEntities(userEntities);
             buildingRepository.save(buildingEntity);
-            System.out.println("OK");
         } else {
             System.out.println("Building not found");
         }

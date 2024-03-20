@@ -139,7 +139,6 @@
                                                         <form:input path="rentPriceTo" class="form-control"></form:input>
                                                     </div>
 
-
                                                 </div>
 
                                                 <div class="col-xs-12">

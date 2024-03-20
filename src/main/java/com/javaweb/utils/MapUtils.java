@@ -13,7 +13,7 @@ public class MapUtils {
 				obj = obj != "" ? Integer.valueOf(obj.toString()) : null;
 			}
 			else if(tClass.getTypeName().equals("java.lang.String")) {
-				obj = obj.toString();
+				obj = obj != "" ? String.valueOf(obj.toString()) : null;
 			}
 			return tClass.cast(obj);
 		}
