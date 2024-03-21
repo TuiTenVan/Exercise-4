@@ -14,18 +14,13 @@ import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.service.IBuildingService;
-import org.apache.commons.lang.StringUtils;
+import com.javaweb.utils.UploadFileUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,26 +37,25 @@ public class BuildingServiceImpl implements IBuildingService {
     private BuildingDTOConverter buildingDTOConverter;
     @Autowired
     private RentAreaRepository rentAreaRepository;
-    private final ResourceLoader resourceLoader;
+    @Autowired
+    private UploadFileUtils uploadFileUtils;
 
-    public BuildingServiceImpl(ResourceLoader resourceLoader) {
-        this.resourceLoader = resourceLoader;
+    private String saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity) {
+        String path = "/building/" + buildingDTO.getImageName();
+        if (null != buildingDTO.getImageBase64()) {
+            if (null != buildingEntity.getAvatar()) {
+                if (!path.equals(buildingEntity.getAvatar())) {
+                    File file = new File("C://home/office" + buildingEntity.getAvatar());
+                    file.delete();
+                }
+            }
+            byte[] bytes = Base64.decodeBase64(buildingDTO.getImageBase64().getBytes());
+            uploadFileUtils.writeOrUpdate(path, bytes);
+            buildingEntity.setAvatar(path);
+        }
+        return path;
     }
 
-    public String saveFile(MultipartFile file) throws IOException {
-        String originalFilename = StringUtils.clean(file.getOriginalFilename());
-        Path uploadPath = Paths.get(resourceLoader.getResource("classpath:/static/admin/assets/avatars/").getURI());
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-        try (InputStream inputStream = file.getInputStream()) {
-            Path filePath = uploadPath.resolve(originalFilename);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new IOException("Không thể lưu tệp: " + originalFilename, e);
-        }
-        return originalFilename;
-    }
     public void save(BuildingDTO buildingDTO){
         BuildingEntity buildingEntity = null;
         if (buildingDTO.getId() != null) {
@@ -70,11 +64,7 @@ public class BuildingServiceImpl implements IBuildingService {
         } else {
             buildingEntity = new BuildingEntity();
         }
-        String avatarPath = buildingDTO.getAvatar();
-        if (avatarPath != null && !avatarPath.isEmpty()) {
-            buildingDTO.setAvatar(avatarPath);
-        }
-        buildingEntity.setAvatar(avatarPath);
+        buildingDTO.setAvatar(saveThumbnail(buildingDTO, buildingEntity));
         buildingEntity = buildingRepository.save(buildingDTOConverter.toBuildingEntity(buildingDTO));
         if (buildingDTO.getRentArea() != null && !buildingDTO.getRentArea().isEmpty()) {
             List<RentAreaEntity> rentAreas = new ArrayList<>();
@@ -85,10 +75,10 @@ public class BuildingServiceImpl implements IBuildingService {
                 rentAreaEntity.setBuilding(buildingEntity);
                 rentAreas.add(rentAreaEntity);
             }
-            rentAreaRepository.saveAll(rentAreas);
             buildingEntity.setBuildings(rentAreas);
         }
     }
+
     public List<BuildingDTO> findAll(Map<String, Object> params, List<String> typeCode){
         BuildingSearchBuilder buildingSearchBuilder = buildingSearchBuilderConverter.toBuildingSearchBuilder(params, typeCode);
         List<BuildingEntity> buildingEntities = buildingRepository.findAll(buildingSearchBuilder);
@@ -99,10 +89,12 @@ public class BuildingServiceImpl implements IBuildingService {
         }
         return result;
     }
+
     public BuildingDTO getBuilding(Long id){
         BuildingEntity building = buildingRepository.findById(id).get();
         return buildingDTOConverter.toBuildingDTO(building);
     }
+
     @Override
     public ResponseDTO listStaffs(Long buildingId) {
         BuildingEntity building = buildingRepository.findById(buildingId).get();
@@ -127,18 +119,11 @@ public class BuildingServiceImpl implements IBuildingService {
         return responseDTO;
     }
 
-//    public void deleteBuildings(List<Long> buildingIds) {
-//        for(Long id : buildingIds){
-//            rentAreaRepository.deleteByBuildingId(id);
-//        }
-//        buildingRepository.deleteAllByIdIn(buildingIds);
-//    }
     public void deleteBuildings(List<Long> buildingIds) {
         for (Long id : buildingIds) {
             buildingRepository.deleteById(id);
         }
     }
-
 
     public void updateAssignment(AssignmentBuildingDTO assignmentBuildingDTO) {
         List<Long> staffIds = assignmentBuildingDTO.getStaffs();

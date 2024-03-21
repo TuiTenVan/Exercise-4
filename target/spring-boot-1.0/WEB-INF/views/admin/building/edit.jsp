@@ -52,7 +52,7 @@
 
 
                 <div class="row" style="font-family: 'Inria Serif', sans-serif;">
-                    <form:form id="listForm" action="${buildingEditURL}" method="post" modelAttribute="buildingEdit" enctype="multipart/form-data">
+                    <form:form id="listForm" action="${buildingEditURL}" method="get" modelAttribute="buildingEdit">
                         <div class="col-xs-12">
                             <div role="form" class="form-horizontal" id="form-edit">
                                 <div class="form-group">
@@ -216,12 +216,16 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-xs-2">Ảnh tòa nhà</label>
-                                    <div class="col-xs-9">
-                                        <input type="file" id="imageInput" name="image" accept="image/*" onchange="previewImage(event)"/>
-                                        <div id="imagePreviewContainer" style="margin-top: 10px;">
-                                            <img id="imagePreview" alt="Preview" style="object-fit: cover; overflow: hidden">
-                                        </div>
+                                    <label class="col-sm-2 no-padding-right">Hình đại diện</label>
+                                    <input class="col-sm-2 no-padding-right" type="file" id="uploadImage"/>
+                                    <div class="col-sm-8">
+                                        <c:if test="${not empty buildingEdit.avatar}">
+                                            <c:set var="imagePath" value="/repository${buildingEdit.avatar}"/>
+                                            <img src="${imagePath}" id="viewImage" width="300px" height="300px" style="overflow: hidden; object-fit: cover">
+                                        </c:if>
+                                        <c:if test="${empty buildingEdit.avatar}">
+                                            <img src="/admin/image/default.png" id="viewImage" width="300px" height="300px">
+                                        </c:if>
                                     </div>
                                 </div>
 
@@ -229,7 +233,7 @@
                                     <div class="col-xs-2"></div>
                                     <div class="col-xs-9">
                                         <c:if test="${not empty buildingEdit.id}">
-                                            <button type="submit" style="margin-right: 10px;" id="btnAddOrUpdateBuilding">
+                                            <button style="margin-right: 10px;" id="btnAddOrUpdateBuilding">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                                 <span> Cập nhập tòa nhà</span>
                                             </button>
@@ -239,7 +243,7 @@
                                             </button>
                                         </c:if>
                                         <c:if test="${empty buildingEdit.id}">
-                                            <button type="submit" style="margin-right: 10px;" id="btnAddOrUpdateBuilding">
+                                            <button style="margin-right: 10px;" id="btnAddOrUpdateBuilding">
                                                 <i class="ace-icon glyphicon glyphicon-plus"></i>
                                                 <span> Thêm tòa nhà</span>
                                             </button>
@@ -262,24 +266,30 @@
     <script src="assets/js/jquery.2.1.1.min.js"></script>
 
     <script>
+        var imageBase64 = '';
+        var imageName = '';
+
         $('#btnAddOrUpdateBuilding').click(function(e){
-            var data = {};
-            var typeCode = [];
-            var formData = new FormData();
-            $('#listForm').serializeArray().forEach(function(item) {
-                if (item.name !== 'typeCode') {
-                    data[item.name] = item.value;
-                } else {
-                    typeCode.push(item.value);
+            var data={};
+            var typeCode=[];
+            var formData=$('#listForm').serializeArray();
+            $.each(formData,function(i,v){
+                if(v.name != 'typeCode'){
+                    data[""+v.name+""]=v.value;
                 }
-                formData.append(item.name, item.value);
-            });
+                else{
+                    typeCode.push(v.value);
+                }
+                if ('' !== imageBase64) {
+                    data['imageBase64'] = imageBase64;
+                    data['imageName'] = imageName;
+                }
+            })
+
             data['typeCode'] = typeCode;
             console.log("OK")
             if (data['typeCode'] != "") {
-                var file = $("#imageInput")[0].files[0];
-                formData.append("image", file);
-                AddOrUpdateBuilding(data, formData);
+                AddOrUpdateBuilding(data);
                 if (data['id'] != "") {
                     alert('Cập nhật thành công!');
                 } else {
@@ -289,46 +299,56 @@
                 e.preventDefault();
             } else {
                 if (data['id'] != "") {
-                    alert("Thông tin chưa chính xác!")
+                    alert("Vui lòng điền đầy đủ thông tin!")
                     window.location.href = "/admin/building-edit-"+ data['id'] + "?typeCode=require";
                 } else {
-                    alert("Thông tin chưa chính xác!")
+                    alert("Vui lòng điền đầy đủ thông tin!")
                     window.location.href = "/admin/building-edit?typeCode=require";
                 }
                 e.preventDefault();
             }
         });
-
-        function AddOrUpdateBuilding(data, formData){
+        function AddOrUpdateBuilding(data){
             $.ajax({
-                type: "POST",
-                url: "${buildingEditURL}",
-                data: formData,
-                contentType: false,
-                processData: false,
-                dataType: "JSON",
+                type:"POST",
+                url: '/api/building',
+                data: JSON.stringify(data),
+                contentType:"application/json",
+                dataType:"JSON",
                 success: function(response) {
-
                 },
                 error: function(response){
                     console.log("Fail!")
                 }
             });
         }
+        $('#uploadImage').change(function (event) {
+            var reader = new FileReader();
+            var file = $(this)[0].files[0];
+            reader.onload = function(e){
+                imageBase64 = e.target.result;
+                imageName = file.name; // ten hinh khong dau, khoang cach. Dat theo format sau: a-b-c
+            };
+            reader.readAsDataURL(file);
+            openImage(this, "viewImage");
+        });
+
+        function openImage(input, imageView) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#' +imageView).attr('src', reader.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
 
         $('#btnCancel').click(function (e){
             window.location.href = "/admin/building-list"
             e.preventDefault();
         })
-        function previewImage(event) {
-            var input = event.target;
-            var preview = document.getElementById('imagePreview');
-            var reader = new FileReader();
-            reader.onload = function () {
-                preview.src = reader.result;
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
+
     </script>
 </body>
 </html>

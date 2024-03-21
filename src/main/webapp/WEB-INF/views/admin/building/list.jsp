@@ -307,8 +307,6 @@
                 <input type="hidden" id="buildingId" value="" name="buildingId">
             </div>
             <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-primary" id="btnAssignmentBuildingModal">Giao tòa nhà</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button> -->
                 <button type="button" title="Giao tòa nhà" id="btnAssignmentBuildingModal" style="background-color: #5DCC91; border: 1px solid #fff; color: #fff;">
                     <span>Giao tòa nhà</span>
                 </button>

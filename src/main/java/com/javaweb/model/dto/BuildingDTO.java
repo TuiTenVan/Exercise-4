@@ -31,6 +31,24 @@ public class BuildingDTO extends AbstractDTO{
     private String note;
     private List<String> typeCode;
     private String avatar;
+    private String imageBase64;
+    private String imageName;
+
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
 
     public String getAvatar() {
         return avatar;

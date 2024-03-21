@@ -11,11 +11,9 @@ import com.javaweb.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +30,8 @@ public class BuildingController {
     public ModelAndView buildingAdmin(@ModelAttribute BuildingSearchRequest buildingSearchRequest,
                                       @RequestParam Map<String, Object> conditions,
                                       @RequestParam (name="typeCode", required = false) List<String> typeCode,
-                                      @ModelAttribute(SystemConstant.MODEL) BuildingDTO model
-                                        , HttpServletRequest request){
+                                      @ModelAttribute(SystemConstant.MODEL) BuildingDTO model,
+                                      HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/building/list");
         List<BuildingDTO> buildingDTOList = buildingService.findAll(conditions, typeCode);
         List<BuildingSearchResponse> responseList = new ArrayList<>();
@@ -50,28 +48,11 @@ public class BuildingController {
             response.setRentArea(buildingDTO.getRentArea());
             responseList.add(response);
         }
+        model.setMaxPageItems(4);
+        model.setTotalItem(buildingDTOList.size());
         mav.addObject("modelSearch", buildingSearchRequest);
         mav.addObject("buildingList", responseList);
         mav.addObject("listStaffs", userService.getStaffs());
-        mav.addObject("district", districtCode.type());
-        mav.addObject("buildingType", buildingType.type());
-        return mav;
-    }
-
-    @PostMapping("/admin/building-edit")
-    public ModelAndView addOrUpdateBuilding(@ModelAttribute("buildingEdit") BuildingDTO buildingDTO,
-                                            @RequestParam(value = "image", required = false) MultipartFile file) {
-        ModelAndView mav = new ModelAndView("admin/building/edit");
-        String filename = "";
-        if (file != null && !file.isEmpty()) {
-            try {
-                filename = buildingService.saveFile(file);
-                buildingDTO.setAvatar(filename);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        buildingService.save(buildingDTO);
         mav.addObject("district", districtCode.type());
         mav.addObject("buildingType", buildingType.type());
         return mav;
