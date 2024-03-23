@@ -4,6 +4,7 @@ import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
 
+import com.javaweb.service.IBuildingService;
 import com.javaweb.service.impl.BuildingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @RequestMapping("/api/building")
 public class BuildingAPI {
     @Autowired
-    private BuildingServiceImpl buildingService;
+    private IBuildingService buildingService;
 
     @PostMapping
     public void addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){

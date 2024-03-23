@@ -56,13 +56,12 @@ public class BuildingEntity extends BaseEntity {
     private String typeCode;
     @Column(name = "avatar")
     private String avatar;
-
     @Column(name = "managername")
     private String managerName;
     @Column(name = "managerphone")
     private String managerPhone;
 
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RentAreaEntity> buildings = new ArrayList<>();
 
     public List<RentAreaEntity> getBuildings() {
