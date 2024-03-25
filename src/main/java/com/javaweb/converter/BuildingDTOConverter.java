@@ -14,13 +14,14 @@ import java.util.stream.Collectors;
 
 @Component
 public class BuildingDTOConverter {
-
+    @Autowired
+    private  RentAreaDTOConverter rentAreaDTOConverter;
     @Autowired
     private ModelMapper modelMapper;
     public BuildingDTO toBuildingDTO(BuildingEntity item){
         BuildingDTO building = modelMapper.map(item, BuildingDTO.class);
         building.setAddress(item.getStreet() + ", " + item.getWard() + ", " + item.getDistrict());
-        List<RentAreaEntity> rentAreas = item.getBuildings();
+        List<RentAreaEntity> rentAreas = item.getRentAreaEntities();
         List<String> typeCodes = new ArrayList<>();
         if(item.getTypeCode() != null && !item.getTypeCode().isEmpty()){
             String[] typeCode = item.getTypeCode().split(",");
@@ -33,10 +34,11 @@ public class BuildingDTOConverter {
         building.setRentArea(rentArea);
         return building;
     }
-    public BuildingEntity toBuildingEntity(BuildingDTO item){
-        BuildingEntity building = modelMapper.map(item, BuildingEntity.class);
-        String type = item.getTypeCode().stream().map(it->it.toString()).collect(Collectors.joining(","));
-        building.setAvatar(item.getAvatar());
+    public BuildingEntity toBuildingEntity(BuildingDTO buildingDTO){
+        BuildingEntity building = modelMapper.map(buildingDTO, BuildingEntity.class);
+        String type = buildingDTO.getTypeCode().stream().map(it->it.toString()).collect(Collectors.joining(","));
+        building.setRentAreaEntities(rentAreaDTOConverter.ConvertToEntity(buildingDTO, building));
+        building.setAvatar(buildingDTO.getAvatar());
         building.setTypeCode(type);
         return building;
     }

@@ -62,14 +62,14 @@ public class BuildingEntity extends BaseEntity {
     private String managerPhone;
 
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RentAreaEntity> buildings = new ArrayList<>();
+    private List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
 
-    public List<RentAreaEntity> getBuildings() {
-        return buildings;
+    public List<RentAreaEntity> getRentAreaEntities() {
+        return rentAreaEntities;
     }
 
-    public void setBuildings(List<RentAreaEntity> buildings) {
-        this.buildings = buildings;
+    public void setRentAreaEntities(List<RentAreaEntity> rentAreaEntities) {
+        this.rentAreaEntities = rentAreaEntities;
     }
 
     public String getAvatar() {

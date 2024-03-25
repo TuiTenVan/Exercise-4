@@ -36,8 +36,6 @@ public class BuildingServiceImpl implements IBuildingService {
     @Autowired
     private BuildingDTOConverter buildingDTOConverter;
     @Autowired
-    private RentAreaRepository rentAreaRepository;
-    @Autowired
     private UploadFileUtils uploadFileUtils;
 
     private String saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity) {
@@ -55,63 +53,11 @@ public class BuildingServiceImpl implements IBuildingService {
         }
         return path;
     }
-
-    public void save(BuildingDTO buildingDTO){
-        BuildingEntity buildingEntity = null;
-        if (buildingDTO.getId() != null) {
-            buildingEntity = buildingRepository.findById(buildingDTO.getId()).orElse(null);
-//            rentAreaRepository.deleteByBuildingId(buildingDTO.getId());
-        } else {
-            buildingEntity = new BuildingEntity();
-        }
-//        buildingEntity.getBuildings().clear();
-        buildingDTO.setAvatar(saveThumbnail(buildingDTO, buildingEntity));
-        buildingEntity = buildingRepository.save(buildingDTOConverter.toBuildingEntity(buildingDTO));
-        if (buildingDTO.getRentArea() != null && !buildingDTO.getRentArea().isEmpty()) {
-            List<RentAreaEntity> rentAreas = new ArrayList<>();
-            for (String rentAreaValue : buildingDTO.getRentArea().split(",")) {
-                rentAreaValue = rentAreaValue.trim();
-                RentAreaEntity rentAreaEntity = new RentAreaEntity();
-                rentAreaEntity.setValue(Integer.parseInt(rentAreaValue));
-                rentAreaEntity.setBuilding(buildingEntity);
-                rentAreas.add(rentAreaEntity);
-            }
-            buildingEntity.setBuildings(rentAreas);
-        }
+    public void save(BuildingDTO buildingDTO) {
+        BuildingEntity buildingEntity = buildingDTOConverter.toBuildingEntity(buildingDTO);
+        saveThumbnail(buildingDTO, buildingEntity);
+        buildingRepository.save(buildingEntity);
     }
-//public void save(BuildingDTO buildingDTO) {
-//    BuildingEntity buildingEntity = null;
-//
-//    if (buildingDTO.getId() != null) {
-//        // Nếu tòa nhà đã tồn tại, tìm và lấy thông tin của nó
-//        buildingEntity = buildingRepository.findById(buildingDTO.getId()).orElse(null);
-//        // Xóa tất cả các RentArea liên quan đến tòa nhà
-//        if (buildingEntity != null) {
-//            buildingEntity.getBuildings().clear();
-//        }
-//    } else {
-//        // Nếu tòa nhà chưa tồn tại, tạo một tòa nhà mới
-//        buildingEntity = new BuildingEntity();
-//    }
-//
-//    // Thực hiện các thay đổi trên tòa nhà
-//    buildingDTO.setAvatar(saveThumbnail(buildingDTO, buildingEntity));
-//    buildingEntity = buildingRepository.save(buildingDTOConverter.toBuildingEntity(buildingDTO));
-//
-//    // Thêm các RentArea mới cho tòa nhà
-//    if (buildingDTO.getRentArea() != null && !buildingDTO.getRentArea().isEmpty()) {
-//        List<RentAreaEntity> rentAreas = new ArrayList<>();
-//        for (String rentAreaValue : buildingDTO.getRentArea().split(",")) {
-//            rentAreaValue = rentAreaValue.trim();
-//            RentAreaEntity rentAreaEntity = new RentAreaEntity();
-//            rentAreaEntity.setValue(Integer.parseInt(rentAreaValue));
-//            rentAreaEntity.setBuilding(buildingEntity);
-//            rentAreas.add(rentAreaEntity);
-//        }
-//        buildingEntity.setBuildings(rentAreas);
-//    }
-//}
-
 
     public List<BuildingDTO> findAll(Map<String, Object> params, List<String> typeCode){
         BuildingSearchBuilder buildingSearchBuilder = buildingSearchBuilderConverter.toBuildingSearchBuilder(params, typeCode);
