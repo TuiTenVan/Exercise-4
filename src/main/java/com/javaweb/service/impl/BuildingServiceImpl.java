@@ -152,45 +152,5 @@ public class BuildingServiceImpl implements IBuildingService {
             System.out.println("Building not found");
         }
     }
-
-
-
-    //    public void UpdateAssignment(Long buildingId, Long staffId){
-//        BuildingEntity building = buildingRepository.findById(buildingId).get();
-//    }
-//    @Override
-//    public Page<BuildingEntity> findAll(Pageable pageable) {
-//        return buildingRepository.findAll(pageable);
-//    }
-//
-//    @Override
-//    public List<BuildingDTO> getAllBuilding(Pageable pageable) {
-//        List<BuildingEntity> buildingEntities = buildingRepository.getAllBuildings(pageable);
-//        List<BuildingDTO> results = new ArrayList<>();
-//        for (BuildingEntity buildingEntity : buildingEntities) {
-//            BuildingDTO buildingDTO = buildingDTOConverter.toBuildingDTO(buildingEntity);
-//            results.add(buildingDTO);
-//        }
-//        return results;
-//    }
-//    public List<BuildingDTO> getBuildings(String searchName, Pageable pageable) {
-//        Page<BuildingEntity> buildings = null;
-//        if (StringUtils.isNotBlank(searchName)) {
-//            buildings = buildingRepository.findByName(searchName, pageable);
-//        } else {
-//            buildings = buildingRepository.findById(0L, pageable);
-//        }
-//        List<BuildingEntity> buildingEntities = buildings.getContent();
-//        List<BuildingDTO> results = new ArrayList<>();
-//        for (BuildingEntity buildingEntity : buildingEntities) {
-//            BuildingDTO buildingDTO = buildingDTOConverter.toBuildingDTO(buildingEntity);
-//            results.add(buildingDTO);
-//        }
-//        return results;
-//    }
-//    @Override
-//    public int countTotalItems() {
-//        return buildingRepository.countTotalItem();
-//    }
-
+    
 }
