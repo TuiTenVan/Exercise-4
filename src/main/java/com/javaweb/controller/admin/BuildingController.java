@@ -1,6 +1,7 @@
 package com.javaweb.controller.admin;
 
 import com.javaweb.constant.SystemConstant;
+import com.javaweb.converter.BuildingSearchResponeConverter;
 import com.javaweb.enums.buildingType;
 import com.javaweb.enums.districtCode;
 import com.javaweb.model.dto.BuildingDTO;
@@ -25,7 +26,8 @@ public class BuildingController {
     public BuildingServiceImpl buildingService;
     @Autowired
     public UserService userService;
-
+    @Autowired
+    public BuildingSearchResponeConverter buildingSearchResponeConverter;
     @GetMapping(value = "/admin/building-list")
     public ModelAndView buildingAdmin(@ModelAttribute BuildingSearchRequest buildingSearchRequest,
                                       @RequestParam Map<String, Object> conditions,
@@ -36,17 +38,7 @@ public class BuildingController {
         List<BuildingDTO> buildingDTOList = buildingService.findAll(conditions, typeCode);
         List<BuildingSearchResponse> responseList = new ArrayList<>();
         for (BuildingDTO buildingDTO : buildingDTOList) {
-            BuildingSearchResponse response = new BuildingSearchResponse();
-            response.setId(buildingDTO.getId());
-            response.setName(buildingDTO.getName());
-            response.setAddress(buildingDTO.getAddress());
-            response.setManagerPhone(buildingDTO.getManagerPhone());
-            response.setNumberOfBasement(buildingDTO.getNumberOfBasement());
-            response.setManagerName(buildingDTO.getManagerName());
-            response.setServiceFee(buildingDTO.getServiceFee());
-            response.setFloorArea(buildingDTO.getFloorArea());
-            response.setRentArea(buildingDTO.getRentArea());
-            responseList.add(response);
+            responseList.add(buildingSearchResponeConverter.converterReponse(buildingDTO));
         }
         model.setMaxPageItems(4);
         model.setTotalItem(buildingDTOList.size());

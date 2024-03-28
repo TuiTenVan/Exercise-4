@@ -159,7 +159,6 @@
                                                         <form:select class="form-control" name="staffId" path="staffId">
                                                             <form:option value="">---Chọn nhân viên---</form:option>
                                                             <form:options items="${listStaffs}"></form:options>
-<%--                                                            value la key--%>
                                                         </form:select>
                                                     </div>
                                                 </div>
@@ -184,14 +183,12 @@
                             </div>
                         </div>
                         <div class="pull-right">
-
                             <a href="/admin/building-edit" style="color: #000; margin-top: 20px">
                                 <button title="Thêm tòa nhà" >
                                     <i class="ace-icon glyphicon glyphicon-plus"></i>
                                     <span> Thêm tòa nhà </span>
                                 </button>
                             </a>
-
 
                             <button title="Xóa tòa nhà" id="btnDeleteBuilding" style="margin-top: 20px">
                                 <i class="fa-solid fa-trash-can"></i>

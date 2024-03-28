@@ -87,7 +87,6 @@ public class BuildingRepositoryImpl {
             sql.append(tmp + " ) ");
         }
     }
-
     public List<BuildingEntity> findAll(BuildingSearchBuilder buildingSearchBuilder) {
         StringBuilder sql = new StringBuilder("SELECT b.* FROM building b ");
         joinTable(buildingSearchBuilder, sql);
