@@ -47,7 +47,6 @@ public class BuildingEntity extends BaseEntity {
     private String payment;
     @Column(name = "renttime")
     private String rentTime;
-
     @Column(name = "decorationtime")
     private String decorationTime;
     @Column(name = "brokeragetee")
