@@ -47,7 +47,6 @@ public class BuildingEntity extends BaseEntity {
     private String payment;
     @Column(name = "renttime")
     private String rentTime;
-
     @Column(name = "decorationtime")
     private String decorationTime;
     @Column(name = "brokeragetee")
@@ -56,21 +55,20 @@ public class BuildingEntity extends BaseEntity {
     private String typeCode;
     @Column(name = "avatar")
     private String avatar;
-
     @Column(name = "managername")
     private String managerName;
     @Column(name = "managerphone")
     private String managerPhone;
 
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
-    private List<RentAreaEntity> buildings = new ArrayList<>();
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
 
-    public List<RentAreaEntity> getBuildings() {
-        return buildings;
+    public List<RentAreaEntity> getRentAreaEntities() {
+        return rentAreaEntities;
     }
 
-    public void setBuildings(List<RentAreaEntity> buildings) {
-        this.buildings = buildings;
+    public void setRentAreaEntities(List<RentAreaEntity> rentAreaEntities) {
+        this.rentAreaEntities = rentAreaEntities;
     }
 
     public String getAvatar() {

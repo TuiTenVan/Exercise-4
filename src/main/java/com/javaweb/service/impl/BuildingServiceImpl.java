@@ -86,7 +86,7 @@ public class BuildingServiceImpl implements IBuildingService {
                 rentAreas.add(rentAreaEntity);
             }
             rentAreaRepository.saveAll(rentAreas);
-            buildingEntity.setBuildings(rentAreas);
+            buildingEntity.setRentAreaEntities(rentAreas);
         }
     }
     public List<BuildingDTO> findAll(Map<String, Object> params, List<String> typeCode){
