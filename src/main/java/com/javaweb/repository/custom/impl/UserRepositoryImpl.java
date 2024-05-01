@@ -12,18 +12,14 @@ import java.util.List;
 
 @Repository
 public class UserRepositoryImpl implements UserRepositoryCustom {
-	
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@Override
-	public List<UserEntity> findByRole(String roleCode) {
-		//JPQL
-		String sql = "FROM UserEntity";
-		Query query = entityManager.createNativeQuery(sql, UserEntity.class);
-		return query.getResultList();
-	}
 
+	private String buildQueryFilter() {
+		String sql = "SELECT * FROM user u WHERE u.status = 1";
+		return sql;
+	}
 	@Override
 	public List<UserEntity> getAllUsers(Pageable pageable) {
 
@@ -37,14 +33,19 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 	}
 
 	@Override
+	public List<UserEntity> findByRole(String roleCode) {
+		//JPQL
+		String sql = "FROM UserEntity";
+		Query query = entityManager.createNativeQuery(sql, UserEntity.class);
+		return query.getResultList();
+	}
+
+	@Override
 	public int countTotalItem() {
 		String sql = buildQueryFilter();
 		Query query = entityManager.createNativeQuery(sql.toString());
 		return query.getResultList().size();
 	}
 
-	private String buildQueryFilter() {
-		String sql = "SELECT * FROM user u WHERE u.status = 1";
-		return sql;
-	}
+
 }

@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 public class BuildingSearchBuilderConverter {
     public BuildingSearchBuilder toBuildingSearchBuilder(Map<String, Object> params, List<String> typeCode){
-        BuildingSearchBuilder buildingSearchBuilder = new BuildingSearchBuilder.Builder()
+        return new BuildingSearchBuilder.Builder()
                 .setName(MapUtils.getObject(params, "name", String.class))
                 .setFloorArea(MapUtils.getObject(params, "floorArea", Integer.class))
                 .setNumberOfBasement(MapUtils.getObject(params, "numberOfBasement", Integer.class))
@@ -30,6 +30,5 @@ public class BuildingSearchBuilderConverter {
                 .setStaffId(MapUtils.getObject(params, "staffId", Integer.class))
                 .setTypeCode(typeCode)
                 .build();
-        return buildingSearchBuilder;
     }
 }

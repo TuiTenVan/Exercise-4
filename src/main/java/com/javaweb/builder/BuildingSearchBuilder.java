@@ -1,8 +1,11 @@
 package com.javaweb.builder;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public class BuildingSearchBuilder {
     private String name;
     private Integer floorArea;
@@ -39,69 +42,7 @@ public class BuildingSearchBuilder {
         this.areaTo = builder.areaTo;
         this.staffId = builder.staffId;
     }
-    public String getName() {
-        return name;
-    }
 
-    public Integer getFloorArea() {
-        return floorArea;
-    }
-
-    public Integer getNumberOfBasement() {
-        return numberOfBasement;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public String getWard() {
-        return ward;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public String getManagerName() {
-        return managerName;
-    }
-
-    public String getManagerPhoneNumber() {
-        return managerPhoneNumber;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public List<String> getTypeCode() {
-        return typeCode;
-    }
-
-    public Integer getRentPriceFrom() {
-        return rentPriceFrom;
-    }
-
-    public Integer getRentPriceTo() {
-        return rentPriceTo;
-    }
-
-    public Integer getAreaFrom() {
-        return areaFrom;
-    }
-
-    public Integer getAreaTo() {
-        return areaTo;
-    }
-
-    public Integer getStaffId() {
-        return staffId;
-    }
     public static class Builder{
         private String name;
         private Integer floorArea;

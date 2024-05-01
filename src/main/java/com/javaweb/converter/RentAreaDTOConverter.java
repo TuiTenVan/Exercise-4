@@ -13,7 +13,7 @@ public class RentAreaDTOConverter {
     public List<RentAreaEntity> ConvertToEntity(BuildingDTO buildingDTO, BuildingEntity buildingEntity){
         List<RentAreaEntity> rentAreaEntities = new ArrayList<>();
         if(StringUtils.check(buildingDTO.getRentArea())){
-            String arr[] = buildingDTO.getRentArea().split(",");
+            String[] arr = buildingDTO.getRentArea().split(",");
             for(String item : arr){
                 RentAreaEntity rentAreaEntity = new RentAreaEntity();
                 rentAreaEntity.setBuilding(buildingEntity);

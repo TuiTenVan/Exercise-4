@@ -57,9 +57,9 @@
                             <div class="col-xs-12">
                                 <div class="widget-box table-filter">
                                     <div class="widget-header">
-                                        <h4 class="widget-title">
+                                        <h4 class="widget-title" style="color: #000">
                                                 <%--<spring:message code="label.search"/>--%>
-                                            Tìm kiếm
+                                            Tìm kiếm nhân viên
                                         </h4>
                                         <div class="widget-toolbar">
                                             <a href="#" data-action="collapse">
@@ -70,12 +70,12 @@
                                     <div class="widget-body">
                                         <div class="widget-main">
                                             <div class="form-horizontal">
-                                                <div class="form-group">
+                                                <div class="form-group" style="margin-top: 20px">
                                                     <label class="col-sm-2 control-label">
                                                             <%--<spring:message code="label.search.value"/>--%>
                                                         Giá trị cần tìm
                                                     </label>
-                                                    <div class="col-sm-8">
+                                                    <div class="col-sm-5">
                                                         <div class="fg-line">
                                                             <form:input path="searchValue" cssClass="form-control input-sm"/>
                                                         </div>
@@ -83,15 +83,24 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label"></label>
-                                                    <div class="col-sm-8">
-                                                        <button id="btnSearch" type="button"
-                                                                class="btn btn-sm btn-success">
-                                                                <%--spring:message code="label.search"/>--%>
-                                                            Tìm kiếm
-                                                            <i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>
+                                                    <div class="col-xs-8">
+                                                        <button id="btnSearch" type="button" style="background-color: #5DCC91; color: #fff; border: #5DCC91;">
+                                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                                            <span> Tìm kiếm</span>
                                                         </button>
                                                     </div>
                                                 </div>
+<%--                                                <div class="form-group">--%>
+<%--                                                    <label class="col-sm-2 control-label"></label>--%>
+<%--                                                    <div class="col-sm-8">--%>
+<%--                                                        <button id="btnSearch" type="button"--%>
+<%--                                                                class="btn btn-sm btn-success">--%>
+<%--                                                                &lt;%&ndash;spring:message code="label.search"/>&ndash;%&gt;--%>
+<%--                                                            Tìm kiếm--%>
+<%--                                                            <i class="ace-icon fa fa-arrow-right icon-on-right bigger-110"></i>--%>
+<%--                                                        </button>--%>
+<%--                                                    </div>--%>
+<%--                                                </div>--%>
                                             </div>
                                         </div>
                                     </div>
@@ -145,10 +154,10 @@
                                         <display:column headerClass="text-left" property="fullName" title="full name"/>
                                         <display:column headerClass="col-actions" title="Thao tác">
                                             <c:if test="${tableList.roleCode != 'MANAGER'}">
-                                                <a class="btn btn-sm btn-primary btn-edit" data-toggle="tooltip"
+                                                <a class="btn btn-xs btn-info" data-toggle="tooltip"
                                                    title="Cập nhật người dùng"
                                                    href='<c:url value="/admin/user-edit-${tableList.id}"/>'>
-                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                                 </a>
                                             </c:if>
                                             <c:if test="${tableList.roleCode == 'MANAGER'}">
@@ -200,6 +209,7 @@
             }
         });
     }
+
 </script>
 </body>
 

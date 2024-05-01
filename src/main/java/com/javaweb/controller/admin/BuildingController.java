@@ -1,57 +1,57 @@
 package com.javaweb.controller.admin;
 
 import com.javaweb.constant.SystemConstant;
-import com.javaweb.converter.BuildingSearchResponeConverter;
+import com.javaweb.converter.BuildingSearchResponseConverter;
 import com.javaweb.enums.buildingType;
 import com.javaweb.enums.districtCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.BuildingSearchResponse;
-import com.javaweb.service.impl.BuildingServiceImpl;
-import com.javaweb.service.impl.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.javaweb.security.utils.SecurityUtils;
+import com.javaweb.service.IBuildingService;
+import com.javaweb.service.IUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Transactional
 @RestController(value="buildingControllerOfAdmin")
+@RequiredArgsConstructor
 public class BuildingController {
-    @Autowired
-    public BuildingServiceImpl buildingService;
-    @Autowired
-    public UserService userService;
-    @Autowired
-    public BuildingSearchResponeConverter buildingSearchResponeConverter;
+    public final IBuildingService buildingService;
+    public final IUserService userService;
+    public final BuildingSearchResponseConverter buildingSearchResponseConverter;
+
     @GetMapping(value = "/admin/building-list")
     public ModelAndView buildingAdmin(@ModelAttribute BuildingSearchRequest buildingSearchRequest,
                                       @RequestParam Map<String, Object> conditions,
                                       @RequestParam (name="typeCode", required = false) List<String> typeCode,
-                                      @ModelAttribute(SystemConstant.MODEL) BuildingDTO model,
-                                      HttpServletRequest request){
+                                      @ModelAttribute(SystemConstant.MODEL) BuildingDTO model){
         ModelAndView mav = new ModelAndView("admin/building/list");
-        List<BuildingDTO> buildingDTOList = buildingService.findAll(conditions, typeCode);
         List<BuildingSearchResponse> responseList = new ArrayList<>();
-        for (BuildingDTO buildingDTO : buildingDTOList) {
-            responseList.add(buildingSearchResponeConverter.converterReponse(buildingDTO));
+        if(SecurityUtils.getAuthorities().contains("ROLE_STAFF")){
+            Long staffId = SecurityUtils.getPrincipal().getId();
+            conditions.put("staffId", staffId);
         }
-        model.setMaxPageItems(4);
-        model.setTotalItem(buildingDTOList.size());
+        List<BuildingDTO> buildingDTOList = buildingService.findAll(conditions, typeCode);
+        for (BuildingDTO buildingDTO : buildingDTOList) {
+            responseList.add(buildingSearchResponseConverter.converterResponse(buildingDTO));
+        }
         mav.addObject("modelSearch", buildingSearchRequest);
-        mav.addObject("buildingList", responseList);
         mav.addObject("listStaffs", userService.getStaffs());
+        mav.addObject("buildingList", responseList);
         mav.addObject("district", districtCode.type());
         mav.addObject("buildingType", buildingType.type());
         return mav;
     }
 
     @GetMapping(value = "/admin/building-edit")
-    public ModelAndView editBuilding(@ModelAttribute("buildingEdit") BuildingDTO buildingDTO, HttpServletRequest request){
+    public ModelAndView editBuilding(@ModelAttribute("buildingEdit") BuildingDTO buildingDTO){
         ModelAndView mav = new ModelAndView("admin/building/edit");
         mav.addObject("district", districtCode.type());
         mav.addObject("buildingType", buildingType.type());
@@ -59,9 +59,9 @@ public class BuildingController {
     }
 
     @GetMapping(value = "/admin/building-edit-{id}")
-    public ModelAndView editBuilding(@PathVariable("id") Long Id, HttpServletRequest request){
+    public ModelAndView editBuilding(@PathVariable("id") Long id){
         ModelAndView mav = new ModelAndView("admin/building/edit");
-        BuildingDTO buildingDTO = buildingService.getBuilding(Id);
+        BuildingDTO buildingDTO = buildingService.getBuilding(id);
         mav.addObject("buildingEdit", buildingDTO);
         mav.addObject("district", districtCode.type());
         mav.addObject("buildingType", buildingType.type());

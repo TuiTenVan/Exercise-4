@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/common/taglib.jsp" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:url var="buildingListURL" value="/admin/building-list"></c:url>
-<c:url var="buildingAPI" value="/api/building"></c:url>
+<c:url var="buildingListURL" value="/admin/building-list"/>
+<c:url var="buildingAPI" value="/api/building"/>
 
 <html>
 <head>
@@ -70,7 +70,7 @@
                                                     <div class="col-xs-6">
                                                         <label class="name">Diện tích sàn</label>
 <%--                                                        <input class="form-control" type="number" value="${modelSearch.floorArea}" name="floorArea" style="border-radius: 20px;">--%>
-                                                        <form:input path="floorArea" class="form-control"></form:input>
+                                                        <form:input path="floorArea" class="form-control"/>
                                                     </div>
                                                 </div>
 
@@ -80,7 +80,7 @@
 <%--                                                        <select class="form-control" name="district" value="${modelSearch.district}">--%>
                                                             <form:select class="form-control" path="district">
                                                                 <form:option value="">---Chọn Quận---</form:option>
-                                                                <form:options items="${district}"></form:options>
+                                                                <form:options items="${district}"/>
                                                             </form:select>
 
 <%--                                                        </select>--%>
@@ -88,12 +88,12 @@
                                                     <div class="col-xs-5">
                                                         <label class="name">Phường</label>
 <%--                                                        <input class="form-control" type="text" name="ward" value="${modelSearch.ward}">--%>
-                                                        <form:input path="ward" class="form-control"></form:input>
+                                                        <form:input path="ward" class="form-control"/>
                                                     </div>
                                                     <div class="col-xs-5">
                                                         <label class="name">Đường</label>
 <%--                                                        <input class="form-control" type="text" name="street" value="${modelSearch.street}">--%>
-                                                        <form:input path="street" class="form-control"></form:input>
+                                                        <form:input path="street" class="form-control"/>
                                                     </div>
 
                                                 </div>
@@ -102,17 +102,17 @@
                                                     <div class="col-xs-4">
                                                         <label class="name">Số tầng hầm</label>
 <%--                                                        <input class="form-control" type="text" name="numberOfBasement" value="${modelSearch.numberOfBasement}">--%>
-                                                        <form:input path="numberOfBasement" class="form-control"></form:input>
+                                                        <form:input path="numberOfBasement" class="form-control"/>
                                                     </div>
                                                     <div class="col-xs-4">
                                                         <label class="name">Hướng tòa nhà</label>
 <%--                                                        <input class="form-control" type="text" name="direction" value="${modelSearch.direction}">--%>
-                                                        <form:input path="direction" class="form-control"></form:input>
+                                                        <form:input path="direction" class="form-control"/>
                                                     </div>
                                                     <div class="col-xs-4">
                                                         <label class="name">Hạng tòa nhà</label>
 <%--                                                        <input class="form-control" type="number" name="level" value="${modelSearch.level}">--%>
-                                                        <form:input path="level" class="form-control"></form:input>
+                                                        <form:input path="level" class="form-control"/>
                                                     </div>
 
                                                 </div>
@@ -121,22 +121,22 @@
                                                     <div class="col-xs-3">
                                                         <label class="name">Diện tích từ</label>
 <%--                                                        <input class="form-control" type="number" name="areaFrom" value="${modelSearch.areaFrom}">--%>
-                                                        <form:input path="areaFrom" class="form-control"></form:input>
+                                                        <form:input path="areaFrom" class="form-control"/>
                                                     </div>
                                                     <div class="col-xs-3">
                                                         <label class="name">Diện tích đến</label>
 <%--                                                        <input class="form-control" type="number" name="areaTo" value="${modelSearch.areaTo}">--%>
-                                                        <form:input path="areaTo" class="form-control"></form:input>
+                                                        <form:input path="areaTo" class="form-control"/>
                                                     </div>
                                                     <div class="col-xs-3">
                                                         <label class="name">Giá thuê từ</label>
 <%--                                                        <input class="form-control" type="number" name="rentPriceFrom" value="${modelSearch.rentPriceFrom}">--%>
-                                                        <form:input path="rentPriceFrom" class="form-control"></form:input>
+                                                        <form:input path="rentPriceFrom" class="form-control"/>
                                                     </div>
                                                     <div class="col-xs-3">
                                                         <label class="name">Giá thuê đến</label>
 <%--                                                        <input class="form-control" type="number" name="rentPriceTo" value="${modelSearch.rentPriceTo}">--%>
-                                                        <form:input path="rentPriceTo" class="form-control"></form:input>
+                                                        <form:input path="rentPriceTo" class="form-control"/>
                                                     </div>
 
                                                 </div>
@@ -146,25 +146,27 @@
                                                     <div class="col-xs-5">
                                                         <label class="name">Tên quản lý</label>
 <%--                                                        <input class="form-control" type="text" name="managerName" value="${modelSearch.managerName}">--%>
-                                                        <form:input path="managerName" class="form-control"></form:input>
+                                                        <form:input path="managerName" class="form-control"/>
                                                     </div>
                                                     <div class="col-xs-5">
                                                         <label class="name">Điện thoại quản lý</label>
 <%--                                                        <input class="form-control" type="text" name="managerPhone" value="${modelSearch.managerPhone}">--%>
                                                         <form:input path="managerPhone" class="form-control"></form:input>
                                                     </div>
+                                                    <security:authorize access="hasRole('MANAGER')">
+                                                        <div class="col-xs-2">
+                                                            <label class="name">Nhân viên quản lý</label>
+                                                            <form:select class="form-control" name="staffId" path="staffId">
+                                                                <form:option value="">---Chọn nhân viên---</form:option>
+                                                                <form:options items="${listStaffs}"/>
+                                                            </form:select>
+                                                        </div>
+                                                    </security:authorize>
 
-                                                    <div class="col-xs-2">
-                                                        <label class="name">Nhân viên quản lý</label>
-                                                        <form:select class="form-control" name="staffId" path="staffId">
-                                                            <form:option value="">---Chọn nhân viên---</form:option>
-                                                            <form:options items="${listStaffs}"></form:options>
-                                                        </form:select>
-                                                    </div>
                                                 </div>
                                                 <div class="col-xs-12">
                                                     <div class="col-xs-9">
-                                                        <form:checkboxes path="typeCode" items="${buildingType}"></form:checkboxes>
+                                                        <form:checkboxes path="typeCode" items="${buildingType}"/>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12">
@@ -182,19 +184,20 @@
 
                             </div>
                         </div>
-                        <div class="pull-right">
-                            <a href="/admin/building-edit" style="color: #000; margin-top: 20px">
-                                <button title="Thêm tòa nhà" >
-                                    <i class="ace-icon glyphicon glyphicon-plus"></i>
-                                    <span> Thêm tòa nhà </span>
+                        <security:authorize access="hasRole('MANAGER')">
+                            <div class="pull-right">
+                                <a href="/admin/building-edit" style="color: #000; margin-top: 20px">
+                                    <button title="Thêm tòa nhà" style="margin-top: 20px">
+                                        <i class="ace-icon glyphicon glyphicon-plus"></i>
+                                        <span> Thêm tòa nhà </span>
+                                    </button>
+                                </a>
+                                <button title="Xóa tòa nhà" id="btnDeleteBuilding" style="margin-top: 20px">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                    <span> Xóa tòa nhà</span>
                                 </button>
-                            </a>
-
-                            <button title="Xóa tòa nhà" id="btnDeleteBuilding" style="margin-top: 20px">
-                                <i class="fa-solid fa-trash-can"></i>
-                                <span> Xóa tòa nhà</span>
-                            </button>
-                        </div>
+                            </div>
+                        </security:authorize>
                     </div>
                 </div>
             </div>
@@ -226,17 +229,20 @@
                             <display:column property="brokerageFee" title="Phí môi giới" headerClass="center"/>
                             <display:column title="Thao tác" headerClass="center">
                                 <div class="hidden-sm hidden-xs btn-group">
-                                    <button class="btn btn-xs btn-success" title="Giao tòa nhà" onclick="assignmentBuilding(${tableList.id})" name="buildingid">
-                                        <i class="ace-icon glyphicon glyphicon-list"></i>
-                                    </button>
+                                    <security:authorize access="hasRole('MANAGER')">
+                                        <button class="btn btn-xs btn-success" title="Giao tòa nhà" onclick="assignmentBuilding(${tableList.id})" name="buildingid">
+                                            <i class="ace-icon glyphicon glyphicon-list"></i>
+                                        </button>
 
+                                    </security:authorize>
                                     <a class="btn btn-xs btn-info" title="Sửa tòa nhà" href="/admin/building-edit-${tableList.id}">
                                         <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
                                     </a>
-
-                                    <button class="btn btn-xs btn-danger" title="Xóa tòa nhà" onclick="deleteBuilding(${tableList.id})">
-                                        <i class="ace-icon glyphicon glyphicon-trash"></i>
-                                    </button>
+                                    <security:authorize access="hasRole('MANAGER')">
+                                        <button class="btn btn-xs btn-danger" title="Xóa tòa nhà" onclick="deleteBuilding(${tableList.id})">
+                                            <i class="ace-icon glyphicon glyphicon-trash"></i>
+                                        </button>
+                                    </security:authorize>
                                 </div>
 
                                 <div class="hidden-md hidden-lg">
@@ -352,7 +358,7 @@
             return $(this).val();
         }).get();
         data['staffs'] = staffs;
-        if(data['staffs'] != ''){
+        if(data['staffs'] !== ''){
             UpdateAssignmentBuilding(data);
         }
         console.log("Ok");
@@ -392,7 +398,7 @@
             return $(this).val();
         }).get();
         DeleteBuilding(buildingIds)
-        if(buildingIds != ""){
+        if(buildingIds !== ""){
             alert('Xóa thành công!');
             window.location.href = "/admin/building-list";
         }

@@ -5,12 +5,12 @@
 <head>
     <title><dec:title default="Đăng nhập" /></title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<link href="style.css" rel="stylesheet" type="text/css" media="all"/>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css" media="all"/>
     <link rel="stylesheet" href="login/style.css">
 </head>
 <body id="LoginForm">
-    <dec:body/>
+<dec:body/>
 </body>
 </html>

@@ -7,6 +7,7 @@ import com.javaweb.service.IUserService;
 import com.javaweb.service.impl.RoleService;
 import com.javaweb.utils.DisplayTagUtils;
 import com.javaweb.utils.MessageUtils;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -19,16 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 @Controller(value = "usersControllerOfAdmin")
+@RequiredArgsConstructor
 public class UserController {
-
-	@Autowired
-	private IUserService userService;
-
-	@Autowired
-	private RoleService roleService;
-
-	@Autowired
-	private MessageUtils messageUtil;
+	private final IUserService userService;
+	private final RoleService roleService;
+	private final MessageUtils messageUtil;
 
 	@RequestMapping(value = "/admin/user-list", method = RequestMethod.GET)
 	public ModelAndView getNews(@ModelAttribute(SystemConstant.MODEL) UserDTO model, HttpServletRequest request) {

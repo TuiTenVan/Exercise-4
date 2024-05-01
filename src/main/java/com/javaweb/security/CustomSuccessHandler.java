@@ -2,6 +2,8 @@ package com.javaweb.security;
 
 import com.javaweb.constant.SystemConstant;
 import com.javaweb.security.utils.SecurityUtils;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+@Setter
+@Getter
 @Component
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -46,25 +50,11 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         return url;
     }
 
-    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-        this.redirectStrategy = redirectStrategy;
-    }
-
-    public RedirectStrategy getRedirectStrategy() {
-        return redirectStrategy;
-    }
-
     private boolean isAdmin(List<String> roles) {
-        if (roles.contains(SystemConstant.ADMIN_ROLE) || roles.contains(SystemConstant.MANAGER_ROLE)) {
-            return true;
-        }
-        return false;
+        return roles.contains(SystemConstant.STAFF_ROLE) || roles.contains(SystemConstant.MANAGER_ROLE);
     }
 
     private boolean isUser(List<String> roles) {
-        if (roles.contains(SystemConstant.USER_ROLE)) {
-            return true;
-        }
-        return false;
+        return roles.contains(SystemConstant.USER_ROLE);
     }
 }

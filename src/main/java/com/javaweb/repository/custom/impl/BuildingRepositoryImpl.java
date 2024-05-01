@@ -2,9 +2,7 @@ package com.javaweb.repository.custom.impl;
 
 import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.entity.BuildingEntity;
-import com.javaweb.entity.UserEntity;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

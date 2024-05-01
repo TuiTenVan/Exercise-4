@@ -1,9 +1,11 @@
 package com.javaweb.enums;
 
-import java.util.HashMap;
+import lombok.Getter;
+
 import java.util.Map;
 import java.util.TreeMap;
 
+@Getter
 public enum  districtCode {
     QUAN_1 ("Quận 1"),
     QUAN_2 ("Quận 2"),
@@ -14,14 +16,9 @@ public enum  districtCode {
     QUAN_7 ("Quận 7"),
     QUAN_8 ("Quận 8"),
     ;
-
     private final String districtName;
     districtCode(String districtName) {
         this.districtName = districtName;
-    }
-
-    public String getDistrictName() {
-        return districtName;
     }
 
     public static Map<String,String> type(){

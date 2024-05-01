@@ -14,67 +14,6 @@
 <body>
 <div class="page-wrapper">
     <div class="">
-        <!-- HEADER -->
-        <%--<header>--%>
-            <%--<!-- Begin menu  -->--%>
-            <%--<div class="p-4">--%>
-                <%--<div class="row navbar">--%>
-                    <%--<div class="col-12 col-md-3">--%>
-                        <%--<div class="logo">--%>
-                            <%--<a href="">--%>
-                                <%--<img src="https://bizweb.dktcdn.net/100/328/362/themes/894751/assets/logo.png?1676257083798"--%>
-                                     <%--alt="">--%>
-                            <%--</a>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="col-12 col-md-6">--%>
-                        <%--<div class="item-menu">--%>
-                            <%--<div class="nav nav1">--%>
-                                <%--<div class="nav-item p-2">--%>
-                                    <%--<a class="nav-item-link" href="">--%>
-                                        <%--<span style="color: var(--primary-color);">Trang chủ</span>--%>
-                                    <%--</a>--%>
-                                <%--</div>--%>
-                                <%--<div class="nav-item p-2">--%>
-                                    <%--<a href='<c:url value='/gioi-thieu'/>'>--%>
-                                        <%--<span>Giới thiệu</span>--%>
-                                        <%--&lt;%&ndash;<span style="color: var(--primary-color);">Giới thiệu</span>&ndash;%&gt;--%>
-                                    <%--</a>--%>
-                                <%--</div>--%>
-                                <%--<div class="nav-item p-2">--%>
-                                    <%--&lt;%&ndash;<a class="nav-item-link" href="./Duan.html">&ndash;%&gt;--%>
-                                        <%--<a href='<c:url value='/san-pham'/>'>--%>
-                                        <%--<span>Sản phẩm</span>--%>
-                                        <%--&lt;%&ndash;<span style="color: var(--primary-color);">Sản phẩm</span>&ndash;%&gt;--%>
-                                    <%--</a>--%>
-                                <%--</div>--%>
-                                <%--<div class="nav-item p-2">--%>
-                                    <%--&lt;%&ndash;<a class="nav-item-link" href="./TinTuc.html">&ndash;%&gt;--%>
-                                        <%--<a href='<c:url value='/tin-tuc'/>'>--%>
-                                        <%--<span>Tin tức</span>--%>
-                                    <%--</a>--%>
-                                <%--</div>--%>
-                                <%--<div class="nav-item p-2">--%>
-                                    <%--<a href='<c:url value='/lien-he'/>'>--%>
-                                        <%--<span>Liên hệ</span>--%>
-                                    <%--</a>--%>
-                                <%--</div>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div class="nav-login col-12 col-md-3">--%>
-                        <%--<button class="btn btn-primary px-4">--%>
-                            <%--<a style="color:#fff;" href="/login">Đăng nhập</a>--%>
-                        <%--</button>--%>
-                        <%--<button class="btn btn-primary px-4">--%>
-                            <%--Đăng ký--%>
-                        <%--</button>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<!-- End menu  -->--%>
-        <%--</header>--%>
-        <!-- SLIDESHOW -->
         <div class="container-fluid">
             <div class="p-0">
                 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">

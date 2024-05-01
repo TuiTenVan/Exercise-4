@@ -1,5 +1,8 @@
 package com.javaweb.controller.web;
 
+import com.javaweb.model.dto.BuildingDTO;
+import com.javaweb.model.dto.CustomerDTO;
+import com.javaweb.model.dto.UserDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.utils.DistrictCode;
 import org.springframework.security.core.Authentication;
@@ -7,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,7 +49,7 @@ public class HomeController {
     }
 
     @GetMapping(value="/lien-he")
-    public ModelAndView contact(){
+    public ModelAndView contact(@ModelAttribute("customerContact") CustomerDTO customerDTO, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("/web/contact");
         return mav;
     }
@@ -55,6 +59,12 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("login");
 		return mav;
 	}
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public ModelAndView register(@ModelAttribute("userRegister") UserDTO userDTO) {
+        ModelAndView mav = new ModelAndView("register");
+        return mav;
+    }
 
 	@RequestMapping(value = "/access-denied", method = RequestMethod.GET)
 	public ModelAndView accessDenied() {

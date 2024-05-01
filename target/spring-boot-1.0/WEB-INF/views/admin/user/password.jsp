@@ -42,7 +42,7 @@
                                     <%--<spring:message code="label.password.old"/>--%>
                                         Mật khẩu cũ
                                 </label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-5">
                                     <input type="password" class="form-control" id="oldPassword" name="oldPassword"/>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                     <%--<spring:message code="label.password.new"/>--%>
                                         Mật khẩu mới
                                 </label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-5">
                                     <input type="password" class="form-control" id="newPassword" name="newPassword"/>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                                     <%--<spring:message code="label.password.repeat"/>--%>
                                         Nhập lại mật khẩu mới
                                 </label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-5">
                                     <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"/>
                                 </div>
                             </div>
@@ -110,6 +110,7 @@
                         dataArray["" + v.name + ""] = v.value;
                     });
                     changePassword(dataArray, $('#userId').val());
+                    alert("Đổi mật khẩu thành công")
                 }
             });
         });

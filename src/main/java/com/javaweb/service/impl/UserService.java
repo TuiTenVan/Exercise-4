@@ -10,6 +10,7 @@ import com.javaweb.exception.MyException;
 import com.javaweb.repository.RoleRepository;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.service.IUserService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,20 +27,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements IUserService {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserConverter userConverter;
-
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserConverter userConverter;
 
 
     @Override
@@ -92,7 +85,6 @@ public class UserService implements IUserService {
         return listStaffs;
     }
 
-
     @Override
     public int getTotalItems(String searchValue) {
         int totalItem = 0;
@@ -107,8 +99,7 @@ public class UserService implements IUserService {
     @Override
     public UserDTO findOneByUserName(String userName) {
         UserEntity userEntity = userRepository.findOneByUserName(userName);
-        UserDTO userDTO = userConverter.convertToDto(userEntity);
-        return userDTO;
+        return userConverter.convertToDto(userEntity);
     }
 
     @Override
@@ -125,11 +116,15 @@ public class UserService implements IUserService {
     @Override
     @Transactional
     public UserDTO insert(UserDTO newUser) {
-        RoleEntity role = roleRepository.findOneByCode(newUser.getRoleCode());
+        if (userRepository.findOneByUserName(newUser.getUserName()) == null) {
+            throw new RuntimeException("Tên người dùng đã tồn tại");
+        }
+        RoleEntity role = roleRepository.findOneByCode("USER");
         UserEntity userEntity = userConverter.convertToEntity(newUser);
         userEntity.setRoles(Stream.of(role).collect(Collectors.toList()));
         userEntity.setStatus(1);
         userEntity.setPassword(passwordEncoder.encode(SystemConstant.PASSWORD_DEFAULT));
+        userRepository.save(userEntity);
         return userConverter.convertToDto(userRepository.save(userEntity));
     }
 

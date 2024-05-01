@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SecurityUtils {
-
     public static MyUserDetail getPrincipal() {
         return (MyUserDetail) (SecurityContextHolder
                 .getContext()).getAuthentication().getPrincipal();

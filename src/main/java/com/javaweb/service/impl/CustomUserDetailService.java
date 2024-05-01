@@ -4,6 +4,7 @@ import com.javaweb.model.dto.MyUserDetail;
 import com.javaweb.model.dto.RoleDTO;
 import com.javaweb.model.dto.UserDTO;
 import com.javaweb.service.IUserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,7 +19,6 @@ import java.util.List;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {
-
     @Autowired
     private IUserService userService;
 

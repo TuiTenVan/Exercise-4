@@ -5,8 +5,8 @@ import com.javaweb.model.response.BuildingSearchResponse;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BuildingSearchResponeConverter {
-    public BuildingSearchResponse converterReponse(BuildingDTO buildingDTO){
+public class BuildingSearchResponseConverter {
+    public BuildingSearchResponse converterResponse(BuildingDTO buildingDTO){
         BuildingSearchResponse response = new BuildingSearchResponse();
         response.setId(buildingDTO.getId());
         response.setName(buildingDTO.getName());

@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="/common/taglib.jsp" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<c:url var="buildingAPI" value="/api/building"></c:url>
-<c:url var="buildingEditURL" value="/admin/building-edit"></c:url>
+<c:url var="buildingAPI" value="/api/building"/>
+<c:url var="buildingEditURL" value="/admin/building-edit"/>
 <html lang="en">
 <head>
     <form:form modelAttribute="buildingEdit" method="get" id="listForm">
@@ -25,24 +25,29 @@
                 <ul class="breadcrumb" >
                     <li>
                         <i class="ace-icon fa fa-home home-icon"></i>
-                        <a href="#" style="color: #000;">Trang chủ</a>
+                        <a href="<c:url value="/admin/building-list"/>" style="color: #000;">Trang chủ</a>
                     </li>
-                    <li class="active">Dashboard</li>
+                    <c:if test="${empty buildingEdit.id}">
+                        <li class="active">Thêm mới tòa nhà</li>
+                    </c:if>
+                    <c:if test="${not empty buildingEdit.id}">
+                        <li class="active">Thông tin tòa nhà</li>
+                    </c:if>
                 </ul><!-- /.breadcrumb -->
 
             </div>
 
-            <div class="page-content">
+            <div class="page-content" style="margin-left: 50px">
                 <div class="page-header">
                     <form:form modelAttribute="buildingEdit" method="get" id="list-form">
                         <c:if test="${empty buildingEdit.id}">
-                            <h1 style="font-size: 26px; color: #000; font-weight: 500; margin-left: 20px">
+                            <h1 style="font-size: 26px; color: #000; font-weight: 500;">
                                 <i class="fa-solid fa-plus"></i>
                                 Thêm tòa nhà
                             </h1>
                         </c:if>
                         <c:if test="${not empty buildingEdit.id}">
-                            <h1 style="font-size: 26px; color: #000; font-weight: 500; margin-left: 20px">
+                            <h1 style="font-size: 26px; color: #000; font-weight: 500">
                                 <i class="fa-solid fa-pen-to-square"></i>
                                 Chỉnh sửa tòa nhà
                             </h1>
@@ -57,7 +62,7 @@
                             <div role="form" class="form-horizontal" id="form-edit">
                                 <div class="form-group">
                                     <label class="col-xs-2">Tên tòa nhà</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="name" class="form-control" name="name"/>
                                     </div>
                                 </div>
@@ -66,151 +71,151 @@
                                     <div class="col-xs-2">
                                         <form:select class="form-control" path="district">
                                             <form:option value="">---Chọn Quận---</form:option>
-                                            <form:options items="${district}"></form:options>
+                                            <form:options items="${district}"/>
                                         </form:select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Phường</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="ward" class="form-control" name="ward"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Đường</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="street" class="form-control" name="street"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Kết cấu</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="structure" name="structure" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Số tầng hầm</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="numberOfBasement" name="numberOfBasement" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Diện tích sàn</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="floorArea" name="floorArea" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Hướng</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="direction" name="direction" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Hạng</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="level" name="level" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Diện tích thuê</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="rentArea" name="rentArea" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Giá thuê</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="rentPrice" name="rentPrice" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Mô tả giá</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="rentPriceDescription" name="rentPriceDescription" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Phí dịch vụ</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="serviceFee" name="serviceFee" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Phí ô tô</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="carFee" name="carFee" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Phí mô tô</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="motoFee" name="motorbikeFee" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Phí ngoài giờ</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="overtimeFee" name="overtimeFee" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Tiền điện</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="electricityFee" name="electricityFee" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Đặt cọc</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="deposit" name="deposit" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Thanh toán</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="payment" name="payment" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Thời hạn thuê</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="rentTime" name="rentTime" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Thời gian trang trí</label>
-                                    <div class="col-xs-9">
-                                        <form:input path="decorationtime" name="decorationTime" class="form-control"/>
+                                    <div class="col-xs-5">
+                                        <form:input path="decorationTime" name="decorationTime" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Tên quản lý</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="managerName" name="managerName" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">SĐT quản lý</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="managerPhone" name="managerPhoneNumber" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Phí môi giới</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="brokerageFee" name="brokerageFee" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Loại tòa nhà</label>
-                                    <div class="col-xs-9">
-                                        <form:checkboxes path="typeCode" items="${buildingType}" id="listCode"></form:checkboxes>
+                                    <div class="col-xs-5">
+                                        <form:checkboxes path="typeCode" items="${buildingType}" id="listCode"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-xs-2">Ghi chú</label>
-                                    <div class="col-xs-9">
+                                    <div class="col-xs-5">
                                         <form:input path="note" name="note" class="form-control"/>
                                     </div>
                                 </div>
@@ -218,7 +223,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 no-padding-right">Hình đại diện</label>
                                     <input class="col-sm-2 no-padding-right" type="file" id="uploadImage"/>
-                                    <div class="col-sm-8">
+                                    <div class="col-sm-5">
                                         <c:if test="${not empty buildingEdit.avatar}">
                                             <c:set var="imagePath" value="/repository${buildingEdit.avatar}"/>
                                             <img src="${imagePath}" id="viewImage" width="300px" height="300px" style="overflow: hidden; object-fit: cover">

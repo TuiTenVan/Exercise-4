@@ -42,7 +42,7 @@
                                 <%--<spring:message code="label.username"/>--%>
                                     Tên đăng nhập
                             </label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-5">
                                 <form:input path="userName" id="userName" cssClass="form-control" disabled="true"/>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                                 <%--<spring:message code="label.fullname"/>--%>
                                     Tên đầy đủ
                             </label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-5">
                                 <form:input path="fullName" id="fullName" cssClass="form-control"/>
                             </div>
                         </div>

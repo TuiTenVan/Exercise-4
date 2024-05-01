@@ -1,9 +1,14 @@
 package com.javaweb.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "user")
 public class UserEntity extends BaseEntity {
@@ -38,65 +43,8 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(mappedBy = "userEntities", fetch = FetchType.LAZY)
     List<BuildingEntity> buildingEntityList = new ArrayList<>();
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+    @ManyToMany(mappedBy = "userList", fetch = FetchType.LAZY)
+    List<CustomerEntity> customerEntityList = new ArrayList<>();
 
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public List<RoleEntity> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<RoleEntity> roles) {
-        this.roles = roles;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-        @Override
-    public Long getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

@@ -3,7 +3,9 @@
  * Copyright 2013-2019 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-small-business/blob/master/LICENSE)
  */
-
+body{
+  background-color: rgba(0, 0, 0, .075);
+}
 .nav-item {
   color: black;
 }

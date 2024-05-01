@@ -5,7 +5,7 @@ import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
 
 import com.javaweb.service.IBuildingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -14,15 +14,14 @@ import java.util.List;
 @RestController(value = "buildingApiOfBuilding")
 @Transactional
 @RequestMapping("/api/building")
+@RequiredArgsConstructor
 public class BuildingAPI {
-    @Autowired
-    private IBuildingService buildingService;
+    private final IBuildingService buildingService;
 
     @PostMapping
     public void addOrUpdateBuilding(@RequestBody BuildingDTO buildingDTO){
         buildingService.save(buildingDTO);
     }
-
     @DeleteMapping("/{ids}")
     public void DeleteBuilding(@PathVariable List<Long> ids){
         buildingService.deleteBuildings(ids);
@@ -30,8 +29,7 @@ public class BuildingAPI {
     }
     @GetMapping("/{id}/staffs")
     public ResponseDTO loadStaffs(@PathVariable Long id){
-        ResponseDTO result = buildingService.listStaffs(id);
-        return result;
+        return buildingService.listStaffs(id);
     }
     @PostMapping("/assignment")
     public void UpdateAssignmentBuilding(@RequestBody AssignmentBuildingDTO assignmentBuildingDTO) {

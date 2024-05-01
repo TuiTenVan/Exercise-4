@@ -1,22 +1,20 @@
 package com.javaweb.service.impl;
 
 import com.javaweb.builder.BuildingSearchBuilder;
-import com.javaweb.converter.BuildingDTOConverter;
+import com.javaweb.converter.BuildingConverter;
 import com.javaweb.converter.BuildingSearchBuilderConverter;
 import com.javaweb.entity.BuildingEntity;
-import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.entity.UserEntity;
 import com.javaweb.model.dto.AssignmentBuildingDTO;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.repository.BuildingRepository;
-import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.repository.UserRepository;
 import com.javaweb.service.IBuildingService;
 import com.javaweb.utils.UploadFileUtils;
+import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -26,19 +24,15 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class BuildingServiceImpl implements IBuildingService {
-    @Autowired
-    private BuildingRepository buildingRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BuildingSearchBuilderConverter buildingSearchBuilderConverter;
-    @Autowired
-    private BuildingDTOConverter buildingDTOConverter;
-    @Autowired
-    private UploadFileUtils uploadFileUtils;
+@RequiredArgsConstructor
+public class BuildingService implements IBuildingService {
+    private final BuildingRepository buildingRepository;
+    private final UserRepository userRepository;
+    private final BuildingSearchBuilderConverter buildingSearchBuilderConverter;
+    private final BuildingConverter buildingDTOConverter;
+    private final UploadFileUtils uploadFileUtils;
 
-    private String saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity) {
+    private void saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity) {
         String path = "/building/" + buildingDTO.getImageName();
         if (null != buildingDTO.getImageBase64()) {
             if (null != buildingEntity.getAvatar()) {
@@ -51,29 +45,29 @@ public class BuildingServiceImpl implements IBuildingService {
             uploadFileUtils.writeOrUpdate(path, bytes);
             buildingEntity.setAvatar(path);
         }
-        return path;
     }
+
+    @Override
     public void save(BuildingDTO buildingDTO) {
-        BuildingEntity buildingEntity = buildingDTOConverter.toBuildingEntity(buildingDTO);
+        BuildingEntity buildingEntity = null;
+        if (buildingDTO.getId() != null) {
+            List<StaffResponseDTO> staffResponseDTOs = (List<StaffResponseDTO>) listStaffs(buildingDTO.getId()).getData();
+            List<UserEntity> staffEntities = new ArrayList<>();
+            for (StaffResponseDTO staffResponseDTO : staffResponseDTOs) {
+                if (staffResponseDTO.getChecked().equals("checked")) {
+                    Long staffId = staffResponseDTO.getStaffId();
+                    userRepository.findById(staffId).ifPresent(staffEntities::add);
+                }
+            }
+            buildingEntity = buildingDTOConverter.toBuildingEntity(buildingDTO);
+            buildingEntity.setUserEntities(staffEntities);
+        } else {
+            buildingEntity = buildingDTOConverter.toBuildingEntity(buildingDTO);
+        }
         saveThumbnail(buildingDTO, buildingEntity);
         buildingRepository.save(buildingEntity);
     }
 
-    public List<BuildingDTO> findAll(Map<String, Object> params, List<String> typeCode){
-        BuildingSearchBuilder buildingSearchBuilder = buildingSearchBuilderConverter.toBuildingSearchBuilder(params, typeCode);
-        List<BuildingEntity> buildingEntities = buildingRepository.findAll(buildingSearchBuilder);
-        List<BuildingDTO> result = new ArrayList<>();
-        for(BuildingEntity item : buildingEntities){
-            BuildingDTO buildingDTO = buildingDTOConverter.toBuildingDTO(item);
-            result.add(buildingDTO);
-        }
-        return result;
-    }
-
-    public BuildingDTO getBuilding(Long id){
-        BuildingEntity building = buildingRepository.findById(id).get();
-        return buildingDTOConverter.toBuildingDTO(building);
-    }
 
     @Override
     public ResponseDTO listStaffs(Long buildingId) {
@@ -92,33 +86,48 @@ public class BuildingServiceImpl implements IBuildingService {
             else{
                 staffResponseDTO.setChecked("");
             }
-            staffResponseDTOS.add(staffResponseDTO);
+            staffResponseDTOS.add(staffResponseDTO);;
         }
         responseDTO.setData(staffResponseDTOS);
+
         responseDTO.setMessage("success");
         return responseDTO;
     }
 
+    @Override
+    public List<BuildingDTO> findAll(Map<String, Object> params, List<String> typeCode){
+        BuildingSearchBuilder buildingSearchBuilder = buildingSearchBuilderConverter.toBuildingSearchBuilder(params, typeCode);
+        List<BuildingEntity> buildingEntities = buildingRepository.findAll(buildingSearchBuilder);
+        List<BuildingDTO> result = new ArrayList<>();
+        for(BuildingEntity item : buildingEntities){
+            BuildingDTO buildingDTO = buildingDTOConverter.toBuildingDTO(item);
+            result.add(buildingDTO);
+        }
+        return result;
+    }
+
+    @Override
+    public BuildingDTO getBuilding(Long id){
+        BuildingEntity building = buildingRepository.findById(id).orElse(null);
+        return buildingDTOConverter.toBuildingDTO(building);
+    }
+
+    @Override
     public void deleteBuildings(List<Long> buildingIds) {
         buildingRepository.deleteAllByIdIn(buildingIds);
     }
 
+    @Override
     public void updateAssignment(AssignmentBuildingDTO assignmentBuildingDTO) {
         List<Long> staffIds = assignmentBuildingDTO.getStaffs();
         BuildingEntity buildingEntity = buildingRepository.findById(assignmentBuildingDTO.getBuildingId()).get();
-        if (buildingEntity != null) {
-            List<UserEntity> userEntities = new ArrayList<>();
-            for (Long userId : staffIds) {
-                UserEntity userEntity = userRepository.findById(userId).get();
-                if (userEntity != null) {
-                    userEntities.add(userEntity);
-                }
-            }
-            userRepository.saveAll(userEntities);
-            buildingEntity.setUserEntities(userEntities);
-            buildingRepository.save(buildingEntity);
-        } else {
-            System.out.println("Building not found");
+        List<UserEntity> userEntities = new ArrayList<>();
+        for (Long userId : staffIds) {
+            UserEntity userEntity = userRepository.findById(userId).get();
+            userEntities.add(userEntity);
         }
+        userRepository.saveAll(userEntities);
+        buildingEntity.setUserEntities(userEntities);
+        buildingRepository.save(buildingEntity);
     }
 }

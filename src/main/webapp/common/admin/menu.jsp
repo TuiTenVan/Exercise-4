@@ -56,8 +56,8 @@
         </li>
         <li class="">
             <a href="/admin/user-list" class="dropdown-toggle">
-                <i class="fa-solid fa-users" style="font-size: 16px; margin-left: 6px;"></i>
-                <span class="menu-text" style="margin-left: 5px;"> Quản lý tài khoản</span>
+                <i class="fa-solid fa-user-tie" style="font-size: 16px; margin-left: 10px;"></i>
+                <span class="menu-text" style="margin-left: 5px;"> Quản lý nhân viên</span>
             </a>
 
             <b class="arrow"></b>
@@ -65,7 +65,24 @@
                 <li class="">
                     <a href="/admin/user-list">
                         <%--                        <i class="menu-icon fa fa-caret-right"></i>--%>
-                        <span>Danh sách người dùng</span>
+                        <span>Danh sách nhân viên</span>
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="/admin/customer-list" class="dropdown-toggle">
+                <i class="fa-solid fa-users" style="font-size: 16px; margin-left: 6px;"></i>
+                <span class="menu-text" style="margin-left: 5px;"> Quản lý khách hàng</span>
+            </a>
+
+            <b class="arrow"></b>
+            <ul class="submenu">
+                <li class="">
+                    <a href="/admin/customer-list">
+                        <%--                        <i class="menu-icon fa fa-caret-right"></i>--%>
+                        <span>Danh sách khách hàng</span>
                     </a>
                     <b class="arrow"></b>
                 </li>

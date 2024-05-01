@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/taglib.jsp"%>
 <%@ page import="com.javaweb.security.utils.SecurityUtils" %>
+<c:url var="formUrl" value="/admin/user-list"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd"
 "https://www.thymeleaf.org">
@@ -16,7 +17,7 @@
         </button>
 
         <div class="navbar-header pull-left" id="header" style="padding: 12px; font-weight: 700">
-            <a href="/admin/building-list" class="navbar-brand">
+            <a href="/trang-chu" class="navbar-brand">
                 <small style="font-size: 26px">
 <%--                    <i class="fa-solid fa-list-check"></i>--%>
                     <i class="fa-solid fa-leaf"></i>
@@ -26,7 +27,7 @@
         </div>
         <div class="pull-right" style="margin-top: 10px; margin-right: 10px;">
             <a href="/trang-chu" style="text-decoration: none; margin-right: 10px">
-                <button style="color: #000; border: none; padding: 8px 15px; cursor: pointer; font-size: 15px">
+                <button class="button" style="color: #000; border: none; padding: 8px 15px; cursor: pointer; font-size: 15px">
                     <i class="fa-solid fa-house-user" style="margin-right: 5px;"></i>
                     <span style="font-size: 15px;">Trang chủ</span>
                 </button>
@@ -36,11 +37,10 @@
                 <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #000; border: none; padding: 8px 15px; cursor: pointer;font-size: 15px;">
                     <i class="fa-solid fa-caret-down" style="font-size: 18px; margin-right: 5px"></i>
                     <span style="font-size: 15px;">Xin chào, <%=SecurityUtils.getPrincipal().getUsername()%> </span>
-<%--                    <span style="font-size: 15px;"> Xin chào, Admin  </span>--%>
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="min-width: 150px; border: none; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-                    <a class="dropdown-item" href="/admin/user-edit" style="text-decoration: none; color: #333;">
+                    <a class="dropdown-item" href="<c:url value="/admin/user-edit"/>" style="text-decoration: none; color: #333;">
                         <i class="ace-icon fa fa-user" style="margin-right: 5px;"></i>
                         <span>Thông tin tài khoản</span>
                     </a>
@@ -49,7 +49,7 @@
                         <span>Đổi mật khẩu</span>
                     </a>
                     <div class="dropdown-divider" style="margin: 5px 0;"></div>
-                    <a class="dropdown-item" href="/login" style="text-decoration: none; color: #333;">
+                    <a class="dropdown-item" href="<c:url value="/login"/>" style="text-decoration: none; color: #333;">
                         <i class="ace-icon fa fa-power-off" style="margin-right: 5px;"></i>
                         <span>Thoát</span>
                     </a>

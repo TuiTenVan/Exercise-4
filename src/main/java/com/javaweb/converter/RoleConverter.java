@@ -2,23 +2,20 @@ package com.javaweb.converter;
 
 import com.javaweb.model.dto.RoleDTO;
 import com.javaweb.entity.RoleEntity;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class RoleConverter {
-	
-	@Autowired
-	private ModelMapper modelMapper;
-	
-	public RoleDTO convertToDto(RoleEntity entity) {
-		RoleDTO result = modelMapper.map(entity, RoleDTO.class);
-        return result;
-    }
+	private final ModelMapper modelMapper;
 
+	public RoleDTO convertToDto(RoleEntity entity) {
+        return modelMapper.map(entity, RoleDTO.class);
+    }
     public RoleEntity convertToEntity(RoleDTO dto) {
-    	RoleEntity result = modelMapper.map(dto, RoleEntity.class);
-        return result;
+        return modelMapper.map(dto, RoleEntity.class);
     }
 }
