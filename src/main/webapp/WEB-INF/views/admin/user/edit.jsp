@@ -35,7 +35,7 @@
                     </c:if>
                     <form:form id="formEdit" class="form-horizontal" modelAttribute="model">
                     <div id="profile">
-                        <div class="form-group">
+                        <div class="form-group" style="margin-top: 30px">
                             <label class="col-sm-3 control-label no-padding-right">Vai trò</label>
                             <div class="col-sm-9">
                                 <form:select path="roleCode" id="roleCode">
@@ -49,7 +49,7 @@
                             <label class="col-sm-3 control-label no-padding-right">
                                 <%--<spring:message code="label.username"/>--%> Tên đăng nhập
                             </label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-4">
                                 <c:if test="${not empty model.id}">
                                     <form:input path="userName" id="userName" cssClass="form-control" disabled="true"/>
                                 </c:if>
@@ -64,7 +64,7 @@
                                 <%--<spring:message code="label.fullname"/>--%>
                                 Tên đầy đủ
                             </label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-4">
                                 <form:input path="fullName" id="fullName" cssClass="form-control"/>
                             </div>
                         </div>
@@ -107,6 +107,7 @@
             var roleCode = dataArray['roleCode'];
             if (roleCode != '') {
                 updateUser(dataArray, $('#userId').val());
+                alert("Cập nhật thành công!")
             } else {
                 window.location.href = "<c:url value='/admin/user-edit-"+userId+"?message=role_require'/>";
             }

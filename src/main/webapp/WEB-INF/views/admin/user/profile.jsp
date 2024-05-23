@@ -77,6 +77,7 @@
             dataArray["fullName"] = $('#fullName').val();
             if ($('#userId').val() != "") {
                 updateInfo(dataArray, $('#userName').val());
+
             }
         });
 

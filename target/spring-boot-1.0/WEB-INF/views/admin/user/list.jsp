@@ -151,7 +151,7 @@
                                             </fieldset>
                                         </display:column>
                                         <display:column headerClass="text-left" property="userName" title="Tên"/>
-                                        <display:column headerClass="text-left" property="fullName" title="full name"/>
+                                        <display:column headerClass="text-left" property="fullName" title="Tên đầy đủ"/>
                                         <display:column headerClass="col-actions" title="Thao tác">
                                             <c:if test="${tableList.roleCode != 'MANAGER'}">
                                                 <a class="btn btn-xs btn-info" data-toggle="tooltip"
